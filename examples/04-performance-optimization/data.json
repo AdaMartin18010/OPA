@@ -1,0 +1,40 @@
+{
+  "users": {
+    "user1": {
+      "id": "user1",
+      "name": "Alice",
+      "department": "engineering",
+      "active": true,
+      "roles": ["developer", "admin"],
+      "permissions": ["read", "write", "delete", "admin"]
+    },
+    "user2": {
+      "id": "user2",
+      "name": "Bob",
+      "department": "sales",
+      "active": true,
+      "roles": ["viewer"],
+      "permissions": ["read"]
+    },
+    "user3": {
+      "id": "user3",
+      "name": "Charlie",
+      "department": "engineering",
+      "active": false,
+      "roles": ["developer"],
+      "permissions": ["read", "write"]
+    }
+  },
+  "role_permissions": {
+    "admin": ["read", "write", "delete", "admin"],
+    "developer": ["read", "write"],
+    "viewer": ["read"]
+  },
+  "allowed_actions_array": ["read", "write", "delete"],
+  "allowed_actions_set": {
+    "read": true,
+    "write": true,
+    "delete": true
+  }
+}
+

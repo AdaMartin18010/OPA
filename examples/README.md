@@ -15,8 +15,9 @@
 | [01-hello-world](./01-hello-world/) | ⭐ 入门 | 基础语法 | ✅ 2/2 | 10分钟 |
 | [02-basic-rbac](./02-basic-rbac/) | ⭐⭐ 入门 | 角色权限控制 | ✅ 20+个 | 20-30分钟 |
 | [03-kubernetes-admission](./03-kubernetes-admission/) | ⭐⭐⭐ 中级 | K8s准入控制 | ✅ 18+个 | 30-45分钟 |
+| [04-performance-optimization](./04-performance-optimization/) | ⭐⭐⭐⭐ 高级 | 性能优化技术 | ✅ 20+个 | 45-60分钟 |
 
-**统计**: 3个示例 | 40+个测试用例 | ~800行代码
+**统计**: 4个示例 | 60+个测试用例 | ~1200行代码
 
 ---
 
@@ -33,7 +34,7 @@
 
 ### 高级路径（⭐⭐⭐⭐）
 
-1. **性能优化示例** - 待添加
+1. **[04-performance-optimization](./04-performance-optimization/)** - 性能优化技术
 
 ---
 
@@ -187,6 +188,48 @@ deny contains msg if {
 
 ---
 
+### [04-performance-optimization](./04-performance-optimization/) ⭐⭐⭐⭐
+
+**学习内容**:
+
+- 索引优化技术
+- 查询顺序优化
+- 避免重复计算
+- 数据结构选择
+- 性能分析工具
+
+**优化对比**:
+
+| 指标 | 慢版本 | 快版本 | 提升 |
+|---|---|---|---|
+| QPS | 100 | 10,000 | **100x** |
+| P99延迟 | 150ms | 1.5ms | **100x** |
+
+**代码示例**:
+
+```rego
+# ❌ 慢版本：全表扫描
+allow if {
+    some user in data.users  # O(n)
+    user.id == input.user_id
+    input.action in user.permissions
+}
+
+# ✅ 快版本：索引查找
+allow if {
+    user := data.users[input.user_id]  # O(1)
+    input.action in user.permissions
+}
+```
+
+**性能工具**:
+
+- `--profile` 标志分析瓶颈
+- `opa bench` 性能基准测试
+- 对比测试验证优化效果
+
+---
+
 ## 🧪 测试详情
 
 每个示例包含：
@@ -202,10 +245,11 @@ deny contains msg if {
 **测试统计**:
 
 ```text
-总测试用例: 40+
+总测试用例: 60+
 正向测试: ~50%  # 应该允许的场景
 负向测试: ~50%  # 应该拒绝的场景
 边界测试: ~10%  # 边界和异常情况
+性能对比: 慢vs快版本性能测试
 ```
 
 ---
@@ -267,7 +311,15 @@ is_admin if {
 - 资源配额限制（CPU不超过4核）
 - 命名空间策略（不同NS不同规则）
 
-### 练习3：创建新示例
+### 练习3：性能优化
+
+在`04-performance-optimization`基础上：
+
+- 使用 `--profile` 找出自己策略的瓶颈
+- 应用索引优化和查询顺序优化
+- 测量优化前后的性能差异
+
+### 练习4：创建新示例
 
 选择场景创建自己的策略：
 
@@ -399,11 +451,11 @@ A: 简单策略评估通常<1ms。复杂场景参考[性能优化指南](../docs
 - [x] 01-hello-world
 - [x] 02-basic-rbac
 - [x] 03-kubernetes-admission
+- [x] 04-performance-optimization
 
 ### 进行中 🚧
 
-- [ ] 04-envoy-authz (API网关授权)
-- [ ] 05-performance-optimization (性能优化)
+- [ ] 05-envoy-authz (API网关授权)
 
 ### 计划中 📋
 
