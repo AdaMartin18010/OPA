@@ -80,6 +80,7 @@ docs/
 
 - **[快速参考](docs/QUICK_REFERENCE.md)** - 一页纸速查手册 ⭐
 - **[常见问题](docs/FAQ.md)** - 22个高频问题解答 ⭐
+- **[学习路线图](docs/LEARNING_PATH.md)** - 6种角色个性化学习路径 🎯
 
 ### 1️⃣ 初学者入门（推荐）
 
