@@ -59,6 +59,7 @@ npm run docs:dev
 #### 步骤1：配置GitHub仓库
 
 1. **推送代码到GitHub**:
+
    ```bash
    git add .
    git commit -m "feat: 配置VuePress文档站点"
@@ -77,7 +78,7 @@ npm run docs:dev
    - 等待构建完成（约2-5分钟）
 
 4. **访问站点**:
-   - https://YOUR_USERNAME.github.io/OPA/
+   - <https://YOUR_USERNAME.github.io/OPA/>
 
 #### 步骤2：验证部署
 
@@ -155,6 +156,7 @@ module.exports = {
 如果有自定义域名：
 
 1. **创建CNAME文件**:
+
    ```bash
    echo "docs.yourdomain.com" > docs/.vuepress/public/CNAME
    ```
@@ -174,7 +176,7 @@ module.exports = {
 部署完成后，检查以下功能：
 
 - [ ] **首页正常显示**
-  - 访问 https://YOUR_USERNAME.github.io/OPA/
+  - 访问 <https://YOUR_USERNAME.github.io/OPA/>
   
 - [ ] **导航栏功能**
   - 点击各导航链接正常跳转
@@ -217,6 +219,7 @@ module.exports = {
 **原因**: `base` 配置不正确
 
 **解决**:
+
 ```javascript
 // config.js
 base: '/OPA/',  // 确保与仓库名一致，且以/开头和结尾
@@ -229,8 +232,10 @@ base: '/OPA/',  // 确保与仓库名一致，且以/开头和结尾
 **原因**: 静态资源路径错误
 
 **解决**:
+
 1. 检查 `base` 配置
 2. 清理缓存重新构建:
+
    ```bash
    rm -rf dist node_modules
    npm install
@@ -241,11 +246,13 @@ base: '/OPA/',  // 确保与仓库名一致，且以/开头和结尾
 
 **现象**: Actions标签页显示红色×
 
-**原因**: 
+**原因**:
+
 - 权限不足
 - 配置错误
 
 **解决**:
+
 1. 检查 Settings → Actions → General
 2. 确保 "Workflow permissions" 设置为 "Read and write permissions"
 3. 重新触发 workflow
@@ -255,6 +262,7 @@ base: '/OPA/',  // 确保与仓库名一致，且以/开头和结尾
 **现象**: 文档中的图片无法显示
 
 **解决**:
+
 1. 图片放在 `docs/.vuepress/public/images/`
 2. Markdown中引用: `![alt](/images/xxx.png)`
 3. 注意路径以 `/` 开头
@@ -360,13 +368,14 @@ VuePress自动处理，无需额外配置。
    - 查看详细错误信息
 
 2. **本地调试**:
+
    ```bash
    npm run docs:build
    # 查看构建错误
    ```
 
 3. **提交Issue**:
-   - 访问 https://github.com/YOUR_USERNAME/OPA/issues
+   - 访问 <https://github.com/YOUR_USERNAME/OPA/issues>
    - 描述问题和错误信息
 
 ---
@@ -378,4 +387,3 @@ npm install
 npm run docs:dev  # 本地预览
 git push origin main  # 触发自动部署
 ```
-

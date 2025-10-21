@@ -68,6 +68,7 @@ bash deploy.sh
    - Branch: `gh-pages` → `/ (root)`
 
 2. **推送代码触发部署**:
+
    ```bash
    git add .
    git commit -m "docs: 更新文档"
@@ -79,7 +80,7 @@ bash deploy.sh
    - 查看 "Deploy Documentation" workflow
 
 4. **访问站点**:
-   - https://YOUR_USERNAME.github.io/OPA/
+   - <https://YOUR_USERNAME.github.io/OPA/>
 
 ---
 
@@ -107,16 +108,19 @@ docs/
 ### 核心配置 (config.js)
 
 **导航栏配置**:
+
 - 首页、快速开始、FAQ、学习路径
 - 代码示例下拉菜单
 - GitHub 链接
 
 **侧边栏配置**:
+
 - 9个主要模块分组
 - 自动折叠/展开
 - 支持嵌套结构
 
 **插件配置**:
+
 - `back-to-top`: 返回顶部按钮
 - `medium-zoom`: 图片缩放
 - `nprogress`: 页面加载进度条
@@ -195,6 +199,7 @@ plugins: [
 ### 进一步优化
 
 1. **添加sitemap**:
+
    ```bash
    npm install -D vuepress-plugin-sitemap
    ```
@@ -203,6 +208,7 @@ plugins: [
    在 `docs/.vuepress/public/` 创建 `robots.txt`
 
 3. **添加Google Analytics**:
+
    ```javascript
    plugins: [
      ['@vuepress/google-analytics', {
@@ -220,6 +226,7 @@ plugins: [
 **问题**: `npm run docs:build` 失败
 
 **解决**:
+
 ```bash
 # 清理缓存
 rm -rf node_modules
@@ -234,7 +241,8 @@ npm install
 
 **问题**: 本地开发图片显示正常，部署后不显示
 
-**解决**: 
+**解决**:
+
 - 图片放在 `docs/.vuepress/public/`
 - 引用路径使用 `/images/xxx.png` (以/开头)
 
@@ -243,6 +251,7 @@ npm install
 **问题**: GitHub Pages部署后某些页面404
 
 **解决**:
+
 - 确保 `base` 配置正确: `/OPA/`
 - 确保仓库名与配置匹配
 
@@ -251,6 +260,7 @@ npm install
 **问题**: 自定义样式没有应用
 
 **解决**:
+
 - 检查文件扩展名是否为 `.styl`
 - 重启开发服务器
 - 清理缓存后重新构建
@@ -280,4 +290,3 @@ npm install
 **配置完成！** 🎉
 
 现在可以运行 `npm run docs:dev` 查看效果了！
-
