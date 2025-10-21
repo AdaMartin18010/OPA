@@ -1,0 +1,21 @@
+{
+  "attributes": {
+    "request": {
+      "http": {
+        "method": "GET",
+        "path": "/api/admin/users",
+        "headers": {
+          "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMSIsInJvbGUiOiJ1c2VyIiwiZXhwIjo5OTk5OTk5OTk5fQ.2mD8L5D8ZQqY5L8ZQqY5L8ZQqY5L8ZQqY5L8ZQqY5L"
+        }
+      }
+    },
+    "source": {
+      "address": {
+        "socketAddress": {
+          "address": "192.168.1.100"
+        }
+      }
+    }
+  }
+}
+

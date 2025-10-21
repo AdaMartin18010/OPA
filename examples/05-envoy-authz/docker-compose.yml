@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  # ────────────────────────────────────────────────────────────────
+  # Envoy代理 - API网关
+  # ────────────────────────────────────────────────────────────────
+  envoy:
+    image: envoyproxy/envoy:v1.28-latest
+    container_name: opa-envoy-proxy
+    ports:
+      - "8000:8000"   # API Gateway端口
+      - "9901:9901"   # Envoy Admin端口
+    volumes:
+      - ./envoy.yaml:/etc/envoy/envoy.yaml:ro
+    command: ["-c", "/etc/envoy/envoy.yaml", "-l", "info"]
+    networks:
+      - opa-network
+    depends_on:
+      - opa
+      - backend
+    restart: unless-stopped
+
+  # ────────────────────────────────────────────────────────────────
+  # OPA - 授权决策引擎
+  # ────────────────────────────────────────────────────────────────
+  opa:
+    image: openpolicyagent/opa:latest-envoy
+    container_name: opa-authz-service
+    ports:
+      - "8181:8181"   # REST API端口
+      - "9191:9191"   # gRPC端口 (Envoy External Authz)
+    volumes:
+      - ./policy.rego:/policies/policy.rego:ro
+    command:
+      - "run"
+      - "--server"
+      - "--log-level=info"
+      - "--log-format=json"
+      - "--addr=0.0.0.0:8181"
+      - "--diagnostic-addr=0.0.0.0:8282"
+      - "--set=plugins.envoy_ext_authz_grpc.addr=:9191"
+      - "--set=plugins.envoy_ext_authz_grpc.path=envoy/authz/allow"
+      - "--set=decision_logs.console=true"
+      - "/policies"
+    networks:
+      - opa-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8181/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # ────────────────────────────────────────────────────────────────
+  # Backend - 示例后端服务
+  # ────────────────────────────────────────────────────────────────
+  backend:
+    image: hashicorp/http-echo:latest
+    container_name: opa-backend-service
+    ports:
+      - "8080:5678"
+    command:
+      - "-text=Hello from backend service! Your request was authorized by OPA."
+      - "-listen=:5678"
+    networks:
+      - opa-network
+    restart: unless-stopped
+
+networks:
+  opa-network:
+    driver: bridge
+    name: opa-envoy-network
+
