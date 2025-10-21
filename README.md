@@ -8,7 +8,8 @@ Open Policy Agent - 全面技术分析与文档体系
 ![Version](https://img.shields.io/badge/version-v2.3-blue)
 ![Docs](https://img.shields.io/badge/docs-33篇-brightgreen)
 ![Words](https://img.shields.io/badge/字数-34万+-orange)
-![Examples](https://img.shields.io/badge/examples-3个-green)
+![Examples](https://img.shields.io/badge/examples-4个-green)
+![Tests](https://img.shields.io/badge/tests-60+-success)
 ![License](https://img.shields.io/badge/license-Apache%202.0-blue)
 
 </div>
@@ -27,10 +28,10 @@ Open Policy Agent - 全面技术分析与文档体系
 
 - ✅ **全面性**: 覆盖OPA所有核心技术领域（340,000+字，33篇文档）
 - ✅ **形式化**: 包含数学模型、语义定义、正确性证明
-- ✅ **实践性**: 提供可运行代码示例和生产实战案例（3个完整示例）
+- ✅ **实践性**: 提供可运行代码示例和生产实战案例（4个完整示例）
 - ✅ **系统化**: 递归式展开概念关系网络（80+核心概念）
 - ✅ **时效性**: 对齐2025年10月最新技术规范（OPA v0.68+ / Rego v1.0）
-- 🆕 **可验证**: 所有示例代码经CI自动化测试（40+测试用例）
+- 🆕 **可验证**: 所有示例代码经CI自动化测试（60+测试用例）
 - 🆕 **生产就绪**: 包含5个真实生产案例（电商、金融、SaaS等）
 - 🆕 **完整工具链**: 快速参考、FAQ、学习路线、术语表
 
@@ -172,13 +173,13 @@ docs/
 |------|------|------|
 | **文档数量** | 33篇 | 29篇核心文档 + 4篇工具文档 ⬆️ |
 | **总字数** | ~340,000字 | 新增70,000字 ⬆️ |
-| **代码示例** | 50+段 | 包含3个完整可运行示例 ✅ |
-| **单元测试** | 40+个 | CI/CD自动验证 🆕 |
+| **代码示例** | 50+段 | 包含4个完整可运行示例 ✅ |
+| **单元测试** | 60+个 | CI/CD自动验证 🆕 |
 | **核心概念** | 80+个 | 含中英对照术语表 |
 | **算法详解** | 15+个 | 完整实现 |
 | **设计模式** | 20+种 | 生产验证 |
 | **实战案例** | 15+个 | 内嵌于文档 |
-| **可运行示例** | 3个 | Hello World + RBAC + K8s 🆕 |
+| **可运行示例** | 4个 | Hello World + RBAC + K8s + 性能优化 🆕 |
 | **生产案例** | 5个 | 电商/金融/SaaS/云/政府 🆕 |
 
 ---
