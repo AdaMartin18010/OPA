@@ -1,0 +1,45 @@
+{
+  "name": "opa-docs",
+  "version": "2.3.0",
+  "description": "OPA技术文档 - Open Policy Agent全面技术分析",
+  "main": "index.js",
+  "scripts": {
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs",
+    "docs:serve": "serve dist",
+    "deploy": "bash deploy.sh"
+  },
+  "keywords": [
+    "opa",
+    "open-policy-agent",
+    "rego",
+    "policy-engine",
+    "kubernetes",
+    "rbac",
+    "documentation"
+  ],
+  "author": "OPA技术文档项目",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "vuepress": "^1.9.10",
+    "@vuepress/plugin-back-to-top": "^1.9.10",
+    "@vuepress/plugin-medium-zoom": "^1.9.10",
+    "@vuepress/plugin-nprogress": "^1.9.10",
+    "@vuepress/plugin-pwa": "^1.9.10",
+    "@vuepress/plugin-search": "^1.9.10",
+    "vuepress-plugin-code-copy": "^1.0.6"
+  },
+  "dependencies": {
+    "serve": "^14.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YOUR_USERNAME/OPA.git"
+  },
+  "bugs": {
+    "url": "https://github.com/YOUR_USERNAME/OPA/issues"
+  },
+  "homepage": "https://YOUR_USERNAME.github.io/OPA/"
+}
+
+

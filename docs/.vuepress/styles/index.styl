@@ -1,0 +1,153 @@
+// 自定义样式
+
+// 调整内容宽度
+.theme-default-content:not(.custom) {
+  max-width: 900px;
+}
+
+// 代码块优化
+div[class*="language-"] {
+  border-radius: 6px;
+  margin: 1rem 0;
+  
+  .highlight-lines {
+    user-select: none;
+    padding-top: 1.4rem;
+    line-height: 1.4;
+  }
+}
+
+// 表格样式优化
+.theme-default-content table {
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  
+  thead {
+    background-color: #f6f8fa;
+  }
+  
+  th, td {
+    border: 1px solid #dfe2e5;
+    padding: 0.6em 1em;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+}
+
+// 徽章样式
+.badge {
+  display: inline-block;
+  padding: 0.25em 0.5em;
+  font-size: 0.85em;
+  font-weight: 600;
+  line-height: 1;
+  border-radius: 3px;
+  margin: 0 0.2em;
+  
+  &.tip {
+    background-color: #42b983;
+    color: white;
+  }
+  
+  &.warning {
+    background-color: #f39c12;
+    color: white;
+  }
+  
+  &.error {
+    background-color: #e74c3c;
+    color: white;
+  }
+}
+
+// 自定义容器优化
+.custom-block {
+  &.tip, &.warning, &.danger {
+    border-left-width: 4px;
+    border-left-style: solid;
+    padding: 1rem 1rem 1rem 1.5rem;
+    margin: 1rem 0;
+    border-radius: 4px;
+  }
+  
+  &.tip {
+    background-color: #f3f5f7;
+    border-color: #42b983;
+  }
+  
+  &.warning {
+    background-color: #fff8e6;
+    border-color: #f39c12;
+  }
+  
+  &.danger {
+    background-color: #ffe6e6;
+    border-color: #e74c3c;
+  }
+}
+
+// 侧边栏优化
+.sidebar {
+  font-size: 15px;
+  
+  .sidebar-group {
+    &:not(.first) {
+      margin-top: 1em;
+    }
+  }
+  
+  a.sidebar-link {
+    padding: 0.5rem 1rem 0.5rem 1.5rem;
+    
+    &.active {
+      font-weight: 600;
+      color: #3eaf7c;
+      border-left-color: #3eaf7c;
+    }
+  }
+}
+
+// 导航栏优化
+.navbar {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  
+  .site-name {
+    font-weight: 600;
+  }
+}
+
+// 移动端优化
+@media (max-width: 719px) {
+  .theme-default-content:not(.custom) {
+    padding: 1.5rem;
+  }
+}
+
+// 代码复制按钮优化
+.code-copy {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+div[class*="language-"]:hover .code-copy {
+  opacity: 1;
+}
+
+// 返回顶部按钮优化
+.go-to-top {
+  bottom: 3rem;
+  right: 2rem;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  }
+}
+
