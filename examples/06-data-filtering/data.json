@@ -1,0 +1,100 @@
+{
+  "records": [
+    {
+      "id": "rec-001",
+      "tenant_id": "tenant-a",
+      "team_id": "team-1",
+      "owner_id": "user-1",
+      "title": "Project Alpha - Engineering",
+      "content": "Sensitive engineering project data. This should only be visible to authorized users.",
+      "metadata": {
+        "department": "engineering",
+        "priority": "high",
+        "budget": 500000
+      },
+      "shared_with": ["user-2"],
+      "is_public": false,
+      "created_at": "2025-01-01T10:00:00Z"
+    },
+    {
+      "id": "rec-002",
+      "tenant_id": "tenant-a",
+      "team_id": "team-1",
+      "owner_id": "user-2",
+      "title": "Project Beta - Product Launch",
+      "content": "Product launch timeline and strategy.",
+      "metadata": {
+        "department": "product",
+        "priority": "medium",
+        "budget": 300000
+      },
+      "shared_with": [],
+      "is_public": false,
+      "created_at": "2025-01-02T11:30:00Z"
+    },
+    {
+      "id": "rec-003",
+      "tenant_id": "tenant-a",
+      "team_id": "team-2",
+      "owner_id": "user-3",
+      "title": "Sales Q1 Report",
+      "content": "Quarterly sales figures and forecasts.",
+      "metadata": {
+        "department": "sales",
+        "priority": "high",
+        "budget": 0
+      },
+      "shared_with": [],
+      "is_public": false,
+      "created_at": "2025-01-03T09:00:00Z"
+    },
+    {
+      "id": "rec-004",
+      "tenant_id": "tenant-b",
+      "team_id": "team-3",
+      "owner_id": "user-4",
+      "title": "Infrastructure Migration",
+      "content": "Cloud migration plan for Tenant B.",
+      "metadata": {
+        "department": "ops",
+        "priority": "critical",
+        "budget": 1000000
+      },
+      "shared_with": [],
+      "is_public": false,
+      "created_at": "2025-01-04T14:00:00Z"
+    },
+    {
+      "id": "rec-005",
+      "tenant_id": "tenant-a",
+      "team_id": "team-1",
+      "owner_id": "user-1",
+      "title": "Public Announcement - Company All-Hands",
+      "content": "Join us for the company all-hands meeting next Friday.",
+      "metadata": {
+        "department": "hr",
+        "priority": "low"
+      },
+      "shared_with": [],
+      "is_public": true,
+      "created_at": "2025-01-05T08:00:00Z"
+    },
+    {
+      "id": "rec-006",
+      "tenant_id": "tenant-a",
+      "team_id": "team-1",
+      "owner_id": "user-1",
+      "title": "Security Audit Report",
+      "content": "Confidential security audit findings.",
+      "metadata": {
+        "department": "security",
+        "priority": "critical",
+        "classification": "confidential"
+      },
+      "shared_with": ["user-2", "user-3"],
+      "is_public": false,
+      "created_at": "2025-01-06T16:00:00Z"
+    }
+  ]
+}
+

@@ -1,0 +1,10 @@
+{
+  "user": {
+    "id": "team-manager-1",
+    "role": "user",
+    "tenant_id": "tenant-a",
+    "team_id": "team-1",
+    "is_team_manager": true
+  }
+}
+
