@@ -5,17 +5,17 @@ Open Policy Agent - 全面技术分析与文档体系
 <div align="center">
 
 ![Status](https://img.shields.io/badge/status-生产就绪-success)
-![Version](https://img.shields.io/badge/version-v2.3-blue)
+![Version](https://img.shields.io/badge/version-v2.4-blue)
 ![Docs](https://img.shields.io/badge/docs-33篇-brightgreen)
-![Words](https://img.shields.io/badge/字数-34万+-orange)
+![Words](https://img.shields.io/badge/字数-35万+-orange)
 ![Examples](https://img.shields.io/badge/examples-6个-green)
-![Tests](https://img.shields.io/badge/tests-100+-success)
+![Tests](https://img.shields.io/badge/tests-155+-success)
 ![License](https://img.shields.io/badge/license-Apache%202.0-blue)
 
 </div>
 
-> **项目状态**: ✅ 生产就绪 + 🚀 持续扩展  
-> **文档版本**: v2.3 (新增代码示例和实战案例)  
+> **项目状态**: ✅ 生产就绪 + 🌍 国际化迈进  
+> **文档版本**: v2.4 (VuePress站点 + 英文摘要)  
 > **最后更新**: 2025年10月21日
 
 ---
@@ -26,14 +26,16 @@ Open Policy Agent - 全面技术分析与文档体系
 
 ### 文档特点
 
-- ✅ **全面性**: 覆盖OPA所有核心技术领域（340,000+字，33篇文档）
+- ✅ **全面性**: 覆盖OPA所有核心技术领域（350,000+字，33篇文档）
 - ✅ **形式化**: 包含数学模型、语义定义、正确性证明
-- ✅ **实践性**: 提供可运行代码示例和生产实战案例（6个完整示例）
+- ✅ **实践性**: 提供可运行代码示例和生产实战案例（6个完整示例，155+测试）
 - ✅ **系统化**: 递归式展开概念关系网络（80+核心概念）
 - ✅ **时效性**: 对齐2025年10月最新技术规范（OPA v0.68+ / Rego v1.0）
-- 🆕 **可验证**: 所有示例代码经CI自动化测试（100+测试用例）
+- 🆕 **可验证**: 所有示例代码经CI自动化测试（155+测试用例）
 - 🆕 **生产就绪**: 包含5个真实生产案例（电商、金融、SaaS等）
 - 🆕 **完整工具链**: 快速参考、FAQ、学习路线、术语表
+- 🌟 **现代化**: VuePress在线文档站，全文搜索、响应式设计、PWA支持
+- 🌍 **国际化**: 10个核心文档提供英文摘要，便于国际用户快速了解
 
 ---
 
@@ -171,10 +173,11 @@ docs/
 
 | 维度 | 数量 | 说明 |
 |------|------|------|
-| **文档数量** | 33篇 | 29篇核心文档 + 4篇工具文档 ⬆️ |
-| **总字数** | ~340,000字 | 新增70,000字 ⬆️ |
+| **文档数量** | 33篇 | 29篇核心文档 + 4篇工具文档 |
+| **总字数** | ~350,000字 | 新增10,000字（英文摘要）⬆️ |
 | **代码示例** | 50+段 | 包含6个完整可运行示例 ✅ |
-| **单元测试** | 100+个 | CI/CD自动验证 🆕 |
+| **单元测试** | 155+个 | CI/CD自动验证，新增55+测试 🆕 |
+| **英文摘要** | 10篇 | 核心文档国际化 🌍 🆕 |
 | **核心概念** | 80+个 | 含中英对照术语表 |
 | **算法详解** | 15+个 | 完整实现 |
 | **设计模式** | 20+种 | 生产验证 |
