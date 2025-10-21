@@ -36,6 +36,7 @@
 - [ ] **命名规范**: 遵循项目命名约定
 
 **验证命令**:
+
 ```bash
 # 语法检查
 opa check --strict policy.rego
@@ -57,6 +58,7 @@ opa check --metrics policy.rego
 - [ ] **压力测试**: 高负载测试通过
 
 **验证命令**:
+
 ```bash
 # 运行测试
 opa test . -v --coverage
@@ -69,6 +71,7 @@ opa test . --coverage --format=json
 ```
 
 **覆盖率要求**:
+
 ```json
 {
   "coverage": {
@@ -102,6 +105,7 @@ opa test . --coverage --format=json
 - [ ] **服务发现**: 注册到服务注册中心
 
 **Kubernetes资源配置**:
+
 ```yaml
 resources:
   requests:
@@ -124,6 +128,7 @@ replicas: 3          # 最少2个副本
 - [ ] **版本控制**: Bundle版本化管理
 
 **OPA配置示例**:
+
 ```yaml
 bundles:
   authz:
@@ -152,6 +157,7 @@ bundles:
 - [ ] **网络隔离**: 限制网络访问
 
 **TLS配置**:
+
 ```yaml
 # OPA配置
 tls:
@@ -191,6 +197,7 @@ tls:
 - [ ] **SLO设置**: 定义服务等级目标
 
 **关键指标**:
+
 ```promql
 # P99延迟
 histogram_quantile(0.99, rate(opa_http_request_duration_seconds_bucket[5m]))
@@ -215,6 +222,7 @@ rate(opa_decision_total[5m])
 - [ ] **日志分析**: 定期分析异常
 
 **日志配置**:
+
 ```yaml
 # OPA配置
 decision_logs:
@@ -248,6 +256,7 @@ decision_logs:
 - [ ] **告警分级**: 区分critical/warning
 
 **Prometheus告警规则**:
+
 ```yaml
 groups:
   - name: opa
@@ -343,6 +352,7 @@ groups:
 - [ ] **性能分析**: 使用profiling分析
 
 **优化示例**:
+
 ```rego
 # ❌ 性能差
 permissions := [p | p := data.all_permissions[_]; p.user == input.user]
@@ -370,6 +380,7 @@ permissions := data.permissions_by_user[input.user]
 - [ ] **容量规划**: 完成容量规划
 
 **性能基准**:
+
 | 场景 | P99延迟目标 | QPS目标 |
 |------|-----------|---------|
 | Sidecar | <5ms | 10K+ |
@@ -447,7 +458,7 @@ permissions := data.permissions_by_user[input.user]
 
 完成度计算：
 
-```
+```text
 完成度 = (已勾选项 / 总检查项) × 100%
 
 建议：
@@ -529,4 +540,3 @@ permissions := data.permissions_by_user[input.user]
 **版本**: v1.0  
 **维护**: OPA中文文档团队  
 **更新**: 每季度review并更新
-
