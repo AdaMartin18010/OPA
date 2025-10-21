@@ -1,6 +1,6 @@
 {
   "name": "opa-docs",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "description": "OPA技术文档 - Open Policy Agent全面技术分析",
   "main": "index.js",
   "scripts": {
@@ -34,12 +34,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/YOUR_USERNAME/OPA.git"
+    "url": "https://github.com/AdaMartin18010/OPA.git"
   },
   "bugs": {
-    "url": "https://github.com/YOUR_USERNAME/OPA/issues"
+    "url": "https://github.com/AdaMartin18010/OPA/issues"
   },
-  "homepage": "https://YOUR_USERNAME.github.io/OPA/"
+  "homepage": "https://AdaMartin18010.github.io/OPA/"
 }
 
 

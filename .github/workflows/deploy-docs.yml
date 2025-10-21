@@ -36,7 +36,6 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
-          cname: YOUR_CUSTOM_DOMAIN  # 可选，如果有自定义域名
           commit_message: 'docs: deploy documentation site'
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'

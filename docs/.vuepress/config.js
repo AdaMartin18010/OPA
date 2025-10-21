@@ -23,7 +23,7 @@ module.exports = {
           { text: '性能优化', link: '/examples/04-performance-optimization/' }
         ]
       },
-      { text: 'GitHub', link: 'https://github.com/YOUR_USERNAME/OPA' }
+      { text: 'GitHub', link: 'https://github.com/AdaMartin18010/OPA' }
     ],
     
     // 侧边栏
@@ -158,9 +158,9 @@ module.exports = {
     // 编辑链接
     editLinks: true,
     editLinkText: '在 GitHub 上编辑此页',
-    repo: 'YOUR_USERNAME/OPA',
+    repo: 'AdaMartin18010/OPA',
     repoLabel: 'GitHub',
-    docsRepo: 'YOUR_USERNAME/OPA',
+    docsRepo: 'AdaMartin18010/OPA',
     docsDir: 'docs',
     docsBranch: 'main',
     
