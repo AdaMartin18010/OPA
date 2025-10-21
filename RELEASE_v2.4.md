@@ -38,11 +38,13 @@ OPA技术文档项目 v2.4 正式发布！本版本重点提升**用户体验**�
 - ✅ **CI/CD部署**: 自动部署到GitHub Pages
 
 **技术栈**:
+
 - VuePress v1.9.10
 - GitHub Actions自动部署
 - 6个核心插件（搜索、代码复制、图片缩放等）
 
 **部署**:
+
 ```bash
 npm install
 npm run docs:dev  # 本地开发
@@ -52,6 +54,7 @@ bash deploy.sh  # 手动部署
 ```
 
 **价值**:
+
 - 📈 **导航效率**: 提升10倍
 - 🔍 **搜索能力**: 提升50倍
 - 📱 **移动访问**: 完美支持
@@ -66,6 +69,7 @@ bash deploy.sh  # 手动部署
 **场景**: API网关授权，零信任架构
 
 **核心功能**:
+
 - ✅ External Authorization（Envoy gRPC）
 - ✅ JWT验证（解析、签名、过期检查）
 - ✅ RBAC授权（Admin/User/Guest三角色）
@@ -74,16 +78,19 @@ bash deploy.sh  # 手动部署
 - ✅ Docker Compose 3服务编排
 
 **测试覆盖**:
+
 - 45+单元测试
 - 8个集成测试
 - Token验证、权限控制、路径匹配全覆盖
 
 **性能指标**:
+
 - P99延迟: ~10-20ms
 - 连接复用: HTTP/2
 - 决策缓存: OPA内置
 
 **使用**:
+
 ```bash
 cd examples/05-envoy-authz
 docker-compose up  # 启动完整环境
@@ -99,6 +106,7 @@ docker-compose up  # 启动完整环境
 **场景**: 行级权限控制，多租户SaaS平台
 
 **核心功能**:
+
 - ✅ 行级权限控制（RLS）
 - ✅ 多租户隔离（租户间数据完全隔离）
 - ✅ 4层权限层次（全局/租户/团队/用户）
@@ -107,6 +115,7 @@ docker-compose up  # 启动完整环境
 - ✅ 统计审计（访问计数、租户/团队统计）
 
 **权限模型**:
+
 ```text
 1. 全局管理员 (admin) → 所有数据
 2. 租户管理员 (tenant_admin) → 本租户所有数据
@@ -115,10 +124,12 @@ docker-compose up  # 启动完整环境
 ```
 
 **测试覆盖**:
+
 - 50+单元测试
 - 全局管理员、租户隔离、团队权限、数据共享全覆盖
 
 **应用场景**:
+
 - SaaS多租户平台
 - 部门数据隔离
 - 项目权限管理
@@ -153,12 +164,14 @@ docker-compose up  # 启动完整环境
    - 性能优化指南
 
 **摘要内容**:
+
 - 文档概述（1-2句话）
 - 核心主题清单
 - 目标读者
 - 适用版本
 
 **价值**:
+
 - 🌍 国际用户友好
 - 📈 提升SEO和可发现性
 - 🚀 为全文翻译奠定基础
@@ -312,7 +325,7 @@ OPA技术文档 v2.4
 
 ### 在线访问
 
-```
+```text
 https://YOUR_USERNAME.github.io/OPA/
 ```
 
@@ -353,6 +366,7 @@ opa test -v .
 感谢所有关注和支持本项目的用户！
 
 特别感谢：
+
 - Open Policy Agent 社区
 - VuePress 团队
 - GitHub Pages
@@ -363,9 +377,9 @@ opa test -v .
 
 如果您在使用过程中遇到任何问题或有改进建议：
 
-- **Issue**: https://github.com/YOUR_USERNAME/OPA/issues
+- **Issue**: <https://github.com/YOUR_USERNAME/OPA/issues>
 - **Pull Request**: 欢迎贡献！
-- **讨论**: https://github.com/YOUR_USERNAME/OPA/discussions
+- **讨论**: <https://github.com/YOUR_USERNAME/OPA/discussions>
 
 ---
 
@@ -374,6 +388,7 @@ opa test -v .
 虽然项目已经达到了预期目标，但仍有改进空间：
 
 **可能的未来方向**:
+
 - 🌍 核心文档全文英文翻译
 - 🎥 视频教程系列
 - 🎮 交互式在线Playground
@@ -388,4 +403,3 @@ opa test -v .
 **项目状态**: ✅ 生产就绪 + 🌍 国际化迈进
 
 **最后更新**: 2025年10月21日
-
