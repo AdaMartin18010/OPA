@@ -27,7 +27,8 @@ git push origin main
 ```
 
 **推送结果**:
-```
+
+```text
 Enumerating objects: 19, done.
 Counting objects: 100% (19/19), done.
 Delta compression using up to 24 threads
@@ -46,6 +47,7 @@ To https://github.com/AdaMartin18010/OPA.git
 ### GitHub Actions Workflow
 
 **触发条件**: 推送到 `main` 分支，且修改了以下文件：
+
 - `docs/**` - 文档内容
 - `package.json` - 依赖配置
 - `.github/workflows/deploy-docs.yml` - 工作流配置
@@ -71,6 +73,7 @@ To https://github.com/AdaMartin18010/OPA.git
 **链接**: <https://github.com/AdaMartin18010/OPA/actions>
 
 **查看内容**:
+
 - ✅ Workflow名称: "Deploy Documentation"
 - ⏳ 状态: 应该显示为运行中或已完成
 - 📊 查看详细日志，确认每个步骤执行成功
@@ -96,24 +99,28 @@ To https://github.com/AdaMartin18010/OPA.git
 访问文档站点，检查以下功能：
 
 #### 基础功能
+
 - [ ] 首页正常显示
 - [ ] 导航栏可点击跳转
 - [ ] 侧边栏正常展开/折叠
 - [ ] 搜索功能正常工作
 
 #### 文档内容
+
 - [ ] 技术规范文档正常显示
 - [ ] 代码高亮正常
 - [ ] 表格格式正确
 - [ ] 链接跳转正常
 
 #### 交互功能
+
 - [ ] 代码复制按钮可用
 - [ ] 返回顶部按钮正常
 - [ ] "在GitHub上编辑"链接正确
 - [ ] 搜索结果准确
 
 #### 响应式设计
+
 - [ ] PC端布局正常
 - [ ] 移动端自适应
 - [ ] 侧边栏在移动端可折叠
@@ -153,7 +160,7 @@ To https://github.com/AdaMartin18010/OPA.git
 
 ## 📊 内容统计
 
-### 文档内容
+### 文档内容1
 
 | 类别 | 数量 | 说明 |
 |---|---|---|
@@ -165,7 +172,7 @@ To https://github.com/AdaMartin18010/OPA.git
 
 ### 页面结构
 
-```
+```text
 /                          - 首页
 /00-总览与索引             - 总览
 /01-技术规范/              - 技术规范（5篇）
@@ -337,7 +344,7 @@ npm run docs:build
 
 ---
 
-**下一步**: 
+**下一步**:
 
 1. 访问 <https://github.com/AdaMartin18010/OPA/actions> 查看部署进度
 2. 部署完成后，访问 <https://github.com/AdaMartin18010/OPA/settings/pages> 启用GitHub Pages
@@ -345,7 +352,6 @@ npm run docs:build
 
 ---
 
-**🚀 文档站点即将上线！** 
+**🚀 文档站点即将上线！**
 
 预计2-5分钟后，OPA技术文档将可在线访问！🎉
-

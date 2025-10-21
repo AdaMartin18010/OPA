@@ -26,6 +26,7 @@
 **A**: OPA (Open Policy Agent) 是一个**通用策略引擎**，使用声明式语言 Rego 编写策略。
 
 **适用场景**：
+
 - ✅ API 授权（微服务、网关）
 - ✅ Kubernetes 准入控制（Gatekeeper）
 - ✅ CI/CD 合规性检查（Terraform、Dockerfile）
@@ -33,6 +34,7 @@
 - ✅ 基础设施即代码（IaC）策略
 
 **不适用场景**：
+
 - ❌ 复杂的状态机逻辑
 - ❌ 需要副作用的操作（数据库写入）
 - ❌ 实时流处理
@@ -51,6 +53,7 @@
 | **学习曲线** | 中等 | 低 | 低（Java开发者） |
 
 **选择建议**：
+
 - **OPA**: 云原生、多语言、复杂策略
 - **Casbin**: 简单RBAC/ABAC，快速集成
 - **Spring Security**: Java单体应用
@@ -62,16 +65,19 @@
 **A**: Rego 是声明式语言，有一定学习曲线，但不难。
 
 **学习时间**：
+
 - **基础语法**: 2-4小时
 - **编写简单策略**: 1-2天
 - **掌握高级特性**: 1-2周
 
 **难点**：
+
 - 统一（unification）概念
 - 声明式思维（vs 命令式）
 - 部分求值（partial evaluation）
 
 **建议**：
+
 1. 从简单的 if-then 规则开始
 2. 在 [OPA Playground](https://play.openpolicyagent.org/) 练习
 3. 阅读官方示例和本文档的 [RBAC案例](./05-应用场景/05.1-访问控制(RBAC).md)
@@ -101,6 +107,7 @@ x = 20           # Fail（统一失败）
 ```
 
 **最佳实践**：
+
 - 使用 `:=` 创建局部变量
 - 使用 `=` 进行模式匹配和条件检查
 
@@ -168,7 +175,7 @@ names := [u.name | some u in users]   # ["alice", "bob"]
 
 ### Q7: 集合 vs 数组，何时用哪个？
 
-**A**: 
+**A**:
 
 | 类型 | 特点 | 适用场景 | 语法 |
 |------|------|---------|------|
@@ -189,6 +196,7 @@ common := admin_roles & user_roles        # {"admin"}
 ```
 
 **建议**：
+
 - 需要顺序或重复：用 **Array**
 - 需要去重或集合运算：用 **Set**
 
@@ -198,7 +206,7 @@ common := admin_roles & user_roles        # {"admin"}
 
 ### Q8: `data` 和 `input` 的区别？
 
-**A**: 
+**A**:
 
 | 变量 | 来源 | 可变性 | 用途 |
 |------|------|--------|------|
@@ -223,6 +231,7 @@ allow if {
 ```
 
 **查询示例**：
+
 ```bash
 opa eval -d data.json -i input.json "data.authz.allow"
 #        ↑ 预加载     ↑ 请求输入
@@ -235,6 +244,7 @@ opa eval -d data.json -i input.json "data.authz.allow"
 **A**: OPA 支持三种方式更新数据：
 
 #### 1. **Bundle 推送**（推荐 - 生产）
+
 ```bash
 # 构建 Bundle
 opa build -b policy/ data/
@@ -250,6 +260,7 @@ opa build -b policy/ data/
 ```
 
 #### 2. **API 更新**（临时 - 开发）
+
 ```bash
 # PUT 更新数据
 curl -X PUT http://localhost:8181/v1/data/users \
@@ -257,6 +268,7 @@ curl -X PUT http://localhost:8181/v1/data/users \
 ```
 
 #### 3. **文件加载**（启动时）
+
 ```bash
 opa run --server --set-file data.json
 ```
@@ -278,6 +290,7 @@ opa run --server --set-file data.json
 5. **外部数据源**：使用 `http.send()` 按需查询
 
 示例：
+
 ```rego
 # ❌ 慢：线性搜索 10MB 数据
 user := [u | some u in data.users; u.id == input.user_id][0]
@@ -292,7 +305,7 @@ user := data.users_by_id[input.user_id]
 
 ### Q11: OPA 应该部署为 Sidecar、DaemonSet 还是中心化服务？
 
-**A**: 
+**A**:
 
 | 模式 | 优势 | 劣势 | 适用场景 |
 |------|------|------|---------|
@@ -302,6 +315,7 @@ user := data.users_by_id[input.user_id]
 | **进程内库** | 零延迟、无网络 | 更新需重启 | 关键路径 |
 
 **推荐**：
+
 - **Kubernetes 微服务**: Sidecar（延迟 < 1ms）
 - **API 网关**: 中心化（Envoy ext_authz）
 - **边缘计算**: WASM（体积小、隔离）
@@ -313,6 +327,7 @@ user := data.users_by_id[input.user_id]
 **A**: 三种主流方式：
 
 #### 1. **HTTP API**（最通用）
+
 ```javascript
 // JavaScript 示例
 const response = await fetch('http://opa:8181/v1/data/authz/allow', {
@@ -326,6 +341,7 @@ if (decision.result) {
 ```
 
 #### 2. **SDK/库**（性能优先）
+
 ```go
 // Go 示例
 import "github.com/open-policy-agent/opa/rego"
@@ -339,6 +355,7 @@ rs, _ := query.Eval(ctx, rego.EvalInput(input))
 ```
 
 #### 3. **WASM**（边缘/浏览器）
+
 ```javascript
 // 浏览器示例
 const { loadPolicy } = require("@open-policy-agent/opa-wasm");
@@ -350,7 +367,7 @@ const result = policy.evaluate(input);
 
 ### Q13: 如何实现策略版本管理？
 
-**A**: 
+**A**:
 
 ```yaml
 # Bundle Manifest（.manifest）
@@ -370,6 +387,7 @@ bundles:
 ```
 
 **最佳实践**：
+
 1. **Git 管理策略代码**（版本控制）
 2. **CI/CD 自动测试**（OPA test）
 3. **Bundle 签名**（防篡改）
@@ -381,19 +399,22 @@ bundles:
 
 ### Q14: OPA 性能如何？能处理多少 QPS？
 
-**A**: 
+**A**:
 
 **基准性能**：
+
 - **简单规则**（布尔判断）: **> 100 万次/秒**（单核）
 - **RBAC 查询**（中等复杂度）: **10k-50k 次/秒**
 - **复杂规则**（嵌套循环）: **1k-10k 次/秒**
 
 **影响因素**：
+
 1. 策略复杂度（循环、递归）
 2. 数据大小（`data` 越大越慢）
 3. 部署模式（Sidecar > 中心化）
 
 **优化建议**：
+
 - 提前退出（快速检查在前）
 - 避免笛卡尔积
 - 数据索引化
@@ -405,7 +426,7 @@ bundles:
 
 ### Q15: 如何监控 OPA 性能？
 
-**A**: 
+**A**:
 
 ```yaml
 # 启用指标
@@ -438,15 +459,17 @@ rate(opa_http_request_total[5m])
 
 ### Q16: 如何调试 Rego 策略？
 
-**A**: 
+**A**:
 
 #### 1. **REPL 交互**
+
 ```bash
 opa run policy.rego
 > data.authz.allow with input as {"user": "alice"}
 ```
 
 #### 2. **print() 调试**
+
 ```rego
 allow if {
     print("User:", input.user)
@@ -455,18 +478,20 @@ allow if {
 ```
 
 #### 3. **Trace 模式**
+
 ```bash
 opa eval --explain=full -d policy.rego "data.authz.allow"
 ```
 
 #### 4. **Playground**
-在线调试：https://play.openpolicyagent.org/
+
+在线调试：<https://play.openpolicyagent.org/>
 
 ---
 
 ### Q17: 如何编写单元测试？
 
-**A**: 
+**A**:
 
 ```rego
 # policy_test.rego
@@ -496,6 +521,7 @@ test_owner_allowed if {
 ```
 
 **运行测试**：
+
 ```bash
 opa test . -v                # 所有测试
 opa test . --coverage        # 覆盖率
@@ -508,37 +534,40 @@ opa test . --benchmark       # 性能测试
 
 ### Q18: OPA 如何保证策略的安全性？
 
-**A**: 
+**A**:
 
 1. **Bundle 签名**：
-```bash
-# 签名
-opa build -b policy/ data/ --signing-key private_key.pem
 
-# 验证
-opa run --verification-key public_key.pem --bundle bundle.tar.gz
-```
+    ```bash
+    # 签名
+    opa build -b policy/ data/ --signing-key private_key.pem
+
+    # 验证
+    opa run --verification-key public_key.pem --bundle bundle.tar.gz
+    ```
 
 2. **TLS/mTLS**：
-```yaml
-# OPA 配置
-services:
-  - name: bundle-server
-    url: https://example.com
-    credentials:
-      bearer:
-        token: "secret"
-```
+
+    ```yaml
+    # OPA 配置
+    services:
+      - name: bundle-server
+        url: https://example.com
+        credentials:
+          bearer:
+            token: "secret"
+    ```
 
 3. **RBAC（OPA 自身）**：
-```rego
-# 限制 API 访问
-package system.authz
 
-allow if {
-    input.identity == "admin"
-}
-```
+    ```rego
+    # 限制 API 访问
+    package system.authz
+
+    allow if {
+        input.identity == "admin"
+    }
+    ```
 
 ---
 
@@ -554,6 +583,7 @@ allow if {
 | **DoS** | 无限递归、大循环 | 限制复杂度 |
 
 **最佳实践**：
+
 - ✅ 默认拒绝（Deny by Default）
 - ✅ 最小权限原则
 - ✅ 策略代码审查
@@ -593,24 +623,27 @@ allow if {
 **A**: 常见原因：
 
 1. **拼写错误**
-```rego
-# ❌ 错误
-concate("a", "b")    # 拼写错误
 
-# ✅ 正确
-concat("", ["a", "b"])
-```
+    ```rego
+    # ❌ 错误
+    concate("a", "b")    # 拼写错误
+
+    # ✅ 正确
+    concat("", ["a", "b"])
+    ```
 
 2. **函数签名不匹配**
-```rego
-# ❌ 错误
-count([1, 2], [3, 4])    # count 只接受1个参数
 
-# ✅ 正确
-count([1, 2])
-```
+    ```rego
+    # ❌ 错误
+    count([1, 2], [3, 4])    # count 只接受1个参数
+
+    # ✅ 正确
+    count([1, 2])
+    ```
 
 3. **未导入内置函数**
+
 ```rego
 import future.keywords.if
 import future.keywords.in   # 某些版本需要
@@ -623,9 +656,10 @@ import future.keywords.in   # 某些版本需要
 **A**: 诊断步骤：
 
 1. **性能分析**
-```bash
-opa eval --profile -d policy.rego "data.authz.allow"
-```
+
+    ```bash
+    opa eval --profile -d policy.rego "data.authz.allow"
+    ```
 
 2. **查看瓶颈**
    - 嵌套循环？→ 优化算法
@@ -663,4 +697,3 @@ opa eval --profile -d policy.rego "data.authz.allow"
 欢迎在 [GitHub Issues](https://github.com/your-repo/opa/issues) 提出！
 
 **更新**: 2025年10月21日 | **版本**: v2.0
-

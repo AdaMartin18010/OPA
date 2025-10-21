@@ -39,7 +39,7 @@
 
 **最新提交**:
 
-```
+```text
 c6d95f6 docs: 添加VuePress部署进度报告
 b185b9a docs: 添加VuePress部署状态文档
 f6ecd90 feat: 配置VuePress自动部署到GitHub Pages
@@ -53,7 +53,7 @@ f6ecd90 feat: 配置VuePress自动部署到GitHub Pages
 
 推送提交 `f6ecd90` 和后续提交后，GitHub Actions自动触发以下流程：
 
-```
+```text
 1. Checkout 代码 ✅
 2. Setup Node.js 18 ⏳
 3. npm ci (安装依赖) ⏳
@@ -127,7 +127,7 @@ f6ecd90 feat: 配置VuePress自动部署到GitHub Pages
 
 ### 页面结构
 
-```
+```text
 主页
 ├── 📖 总览与索引
 ├── 🔧 技术规范 (5篇)
@@ -302,7 +302,7 @@ git push origin main
 
 ### 里程碑时间线
 
-```
+```text
 2025-10-xx  项目启动
 2025-10-xx  v1.0 - 基础文档完成（6篇）
 2025-10-xx  v2.0 - 完整体系（24篇）
@@ -370,14 +370,14 @@ git push origin main
 
 1. **查看部署状态**:
 
-   ```
+   ```text
    访问: https://github.com/AdaMartin18010/OPA/actions
    等待: workflow显示绿色✅
    ```
 
 2. **启用GitHub Pages**:
 
-   ```
+   ```text
    访问: https://github.com/AdaMartin18010/OPA/settings/pages
    配置: gh-pages分支 → / (root)
    保存: 点击Save
@@ -385,7 +385,7 @@ git push origin main
 
 3. **验证站点**:
 
-   ```
+   ```text
    访问: https://AdaMartin18010.github.io/OPA/
    检查: 使用上方验证清单
    ```
