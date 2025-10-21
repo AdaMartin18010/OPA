@@ -323,7 +323,7 @@ opa eval --profile -d policy.rego -i input.json "data.authz.allow"
 
 输出示例：
 
-```
+```text
 +----------+----------+----------+---------+
 |   TIME   | NUM EVAL | NUM REDO | LOCATION|
 +----------+----------+----------+---------+
