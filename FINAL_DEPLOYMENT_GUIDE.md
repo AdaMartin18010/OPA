@@ -38,6 +38,7 @@
 ```
 
 **最新提交**:
+
 ```
 c6d95f6 docs: 添加VuePress部署进度报告
 b185b9a docs: 添加VuePress部署状态文档
@@ -68,6 +69,7 @@ f6ecd90 feat: 配置VuePress自动部署到GitHub Pages
 **GitHub Actions页面**: <https://github.com/AdaMartin18010/OPA/actions>
 
 **操作步骤**:
+
 1. 点击最新的 "Deploy Documentation" workflow
 2. 查看运行状态（绿色✅ = 成功）
 3. 如果失败，查看详细日志排查问题
@@ -97,6 +99,7 @@ f6ecd90 feat: 配置VuePress自动部署到GitHub Pages
 **站点URL**: <https://AdaMartin18010.github.io/OPA/>
 
 **验证内容**:
+
 - [ ] 首页正常显示
 - [ ] 导航栏可点击
 - [ ] 侧边栏展开正常
@@ -188,11 +191,13 @@ git push origin main
 ### 问题1: Actions显示红色❌
 
 **可能原因**:
+
 - 构建错误（Markdown语法问题）
 - 权限不足
 - 依赖安装失败
 
 **解决方法**:
+
 1. 点击失败的workflow查看详细日志
 2. 检查 Settings → Actions → General
 3. 确保 "Workflow permissions" = "Read and write permissions"
@@ -201,6 +206,7 @@ git push origin main
 ### 问题2: GitHub Pages未启用
 
 **解决方法**:
+
 1. 访问 <https://github.com/AdaMartin18010/OPA/settings/pages>
 2. 选择 `gh-pages` 分支
 3. 点击 Save
@@ -208,10 +214,12 @@ git push origin main
 ### 问题3: 站点显示404
 
 **可能原因**:
+
 - base路径配置错误
 - GitHub Pages未正确启用
 
 **解决方法**:
+
 1. 确认config.js中 `base: '/OPA/'` 正确
 2. 确认GitHub Pages已启用且选择gh-pages分支
 3. 等待1-2分钟DNS生效
@@ -219,6 +227,7 @@ git push origin main
 ### 问题4: 样式丢失/显示异常
 
 **解决方法**:
+
 1. 清理浏览器缓存
 2. 检查base路径配置
 3. 查看Actions日志确认构建成功
@@ -360,12 +369,14 @@ git push origin main
 ### 立即操作
 
 1. **查看部署状态**:
+
    ```
    访问: https://github.com/AdaMartin18010/OPA/actions
    等待: workflow显示绿色✅
    ```
 
 2. **启用GitHub Pages**:
+
    ```
    访问: https://github.com/AdaMartin18010/OPA/settings/pages
    配置: gh-pages分支 → / (root)
@@ -373,6 +384,7 @@ git push origin main
    ```
 
 3. **验证站点**:
+
    ```
    访问: https://AdaMartin18010.github.io/OPA/
    检查: 使用上方验证清单
@@ -409,7 +421,7 @@ git push origin main
 
 ---
 
-**🎉 恭喜！OPA技术文档即将上线！** 
+**🎉 恭喜！OPA技术文档即将上线！**
 
 **📖 让Policy-as-Code技术触达更广大的开发者群体！** 🚀
 
@@ -419,4 +431,3 @@ git push origin main
 **项目版本**: v2.4.0  
 **在线地址**: <https://AdaMartin18010.github.io/OPA/>  
 **GitHub**: <https://github.com/AdaMartin18010/OPA>
-
