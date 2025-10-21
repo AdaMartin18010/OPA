@@ -1,0 +1,13 @@
+{
+  "user": {
+    "id": "1",
+    "name": "Alice",
+    "role": "admin"
+  },
+  "resource": {
+    "id": "resource-123",
+    "owner": "2",
+    "type": "document"
+  }
+}
+
