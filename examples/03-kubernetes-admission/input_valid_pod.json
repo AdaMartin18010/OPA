@@ -1,0 +1,53 @@
+{
+  "request": {
+    "uid": "test-uid-123",
+    "kind": {
+      "group": "",
+      "version": "v1",
+      "kind": "Pod"
+    },
+    "resource": {
+      "group": "",
+      "version": "v1",
+      "resource": "pods"
+    },
+    "namespace": "default",
+    "operation": "CREATE",
+    "object": {
+      "apiVersion": "v1",
+      "kind": "Pod",
+      "metadata": {
+        "name": "valid-pod",
+        "namespace": "default",
+        "labels": {
+          "app": "myapp",
+          "env": "prod",
+          "owner": "team-a"
+        }
+      },
+      "spec": {
+        "containers": [
+          {
+            "name": "nginx",
+            "image": "docker.io/library/nginx:1.21",
+            "resources": {
+              "requests": {
+                "cpu": "100m",
+                "memory": "128Mi"
+              },
+              "limits": {
+                "cpu": "200m",
+                "memory": "256Mi"
+              }
+            },
+            "securityContext": {
+              "runAsUser": 1000,
+              "allowPrivilegeEscalation": false
+            }
+          }
+        ]
+      }
+    }
+  }
+}
+

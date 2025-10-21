@@ -1,0 +1,36 @@
+{
+  "request": {
+    "uid": "test-uid-456",
+    "kind": {
+      "group": "",
+      "version": "v1",
+      "kind": "Pod"
+    },
+    "namespace": "default",
+    "operation": "CREATE",
+    "object": {
+      "apiVersion": "v1",
+      "kind": "Pod",
+      "metadata": {
+        "name": "invalid-pod",
+        "namespace": "default",
+        "labels": {
+          "owner": "team-b"
+        }
+      },
+      "spec": {
+        "containers": [
+          {
+            "name": "nginx",
+            "image": "hacker.com/malicious:latest",
+            "securityContext": {
+              "privileged": true,
+              "runAsUser": 0
+            }
+          }
+        ]
+      }
+    }
+  }
+}
+

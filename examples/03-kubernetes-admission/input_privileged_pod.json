@@ -1,0 +1,50 @@
+{
+  "request": {
+    "uid": "test-uid-789",
+    "kind": {
+      "group": "",
+      "version": "v1",
+      "kind": "Pod"
+    },
+    "namespace": "kube-system",
+    "operation": "CREATE",
+    "object": {
+      "apiVersion": "v1",
+      "kind": "Pod",
+      "metadata": {
+        "name": "privileged-pod",
+        "namespace": "kube-system",
+        "labels": {
+          "app": "system",
+          "env": "prod",
+          "owner": "platform-team"
+        }
+      },
+      "spec": {
+        "hostNetwork": true,
+        "hostPID": true,
+        "containers": [
+          {
+            "name": "system-agent",
+            "image": "docker.io/library/alpine:3.14",
+            "resources": {
+              "requests": {
+                "cpu": "100m",
+                "memory": "128Mi"
+              },
+              "limits": {
+                "cpu": "200m",
+                "memory": "256Mi"
+              }
+            },
+            "securityContext": {
+              "privileged": true,
+              "runAsUser": 0
+            }
+          }
+        ]
+      }
+    }
+  }
+}
+

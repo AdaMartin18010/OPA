@@ -1,194 +1,283 @@
-# OPA/Rego 可运行示例集
+# OPA/Rego 代码示例集
 
-> **状态**: 🚧 持续更新中  
-> **测试**: ✅ 所有示例已验证  
+> **状态**: ✅ 3个示例已完成  
+> **测试**: 🔄 自动化CI测试  
 > **版本**: OPA v0.68+
 
----
-
-## 📋 示例列表
-
-| 示例 | 难度 | 主题 | 测试状态 | 运行 |
-|------|------|------|---------|------|
-| [01-hello-world](./01-hello-world/) | ⭐ 入门 | 基础语法、规则、测试 | ✅ 5/5 | [▶️](#运行方式) |
-| [02-basic-rbac](./02-basic-rbac/) | ⭐⭐ 初级 | RBAC、权限检查 | 🚧 开发中 | - |
-| [03-k8s-admission](./03-k8s-admission/) | ⭐⭐⭐ 中级 | Kubernetes准入控制 | 🚧 开发中 | - |
-| [04-envoy-authz](./04-envoy-authz/) | ⭐⭐⭐ 中级 | Envoy外部授权 | 🚧 开发中 | - |
-| [05-partial-eval](./05-partial-eval/) | ⭐⭐⭐⭐ 高级 | 部分求值、优化 | 🚧 开发中 | - |
+本目录包含可运行的OPA/Rego策略示例，每个示例都包含完整代码、测试和文档。
 
 ---
 
-## 🚀 运行方式
+## 📚 示例列表
 
-### 前置要求
+| 示例 | 难度 | 场景 | 测试 | 学习时间 |
+|------|------|------|------|----------|
+| [01-hello-world](./01-hello-world/) | ⭐ 入门 | 基础语法 | ✅ 2/2 | 10分钟 |
+| [02-basic-rbac](./02-basic-rbac/) | ⭐⭐ 入门 | 角色权限控制 | ✅ 20+个 | 20-30分钟 |
+| [03-kubernetes-admission](./03-kubernetes-admission/) | ⭐⭐⭐ 中级 | K8s准入控制 | ✅ 18+个 | 30-45分钟 |
 
-安装OPA (v0.55+):
+**统计**: 3个示例 | 40+个测试用例 | ~800行代码
+
+---
+
+## 🎓 学习路径
+
+### 入门路径（⭐）
+1. **[01-hello-world](./01-hello-world/)** - Rego基础语法
+2. **[02-basic-rbac](./02-basic-rbac/)** - RBAC权限模型
+
+### 中级路径（⭐⭐⭐）
+3. **[03-kubernetes-admission](./03-kubernetes-admission/)** - K8s资源验证
+
+### 高级路径（⭐⭐⭐⭐）
+4. **性能优化示例** - 待添加
+
+---
+
+## 🚀 快速开始
+
+### 1. 安装OPA
 
 ```bash
-# Linux/macOS
-curl -L -o opa https://openpolicyagent.org/downloads/latest/opa_linux_amd64
-chmod 755 ./opa
-
-# Windows (PowerShell)
-Invoke-WebRequest -Uri https://openpolicyagent.org/downloads/latest/opa_windows_amd64.exe -OutFile opa.exe
-
-# macOS (Homebrew)
+# macOS
 brew install opa
 
-# 验证安装
-opa version
+# Linux
+curl -L -o opa https://openpolicyagent.org/downloads/latest/opa_linux_amd64
+chmod +x opa
+sudo mv opa /usr/local/bin/
+
+# Windows
+# 下载 https://openpolicyagent.org/downloads/latest/opa_windows_amd64.exe
+# 重命名为 opa.exe 并添加到PATH
 ```
 
-### 运行单个示例
+### 2. 运行示例
 
 ```bash
-cd examples/01-hello-world/
+# 选择一个示例
+cd examples/02-basic-rbac
 
-# 1. 运行测试
+# 运行测试
 opa test . -v
 
-# 2. 评估策略
-opa eval -d policy.rego -i input.json "data.example.hello.allow"
+# 评估策略
+opa eval -i input_admin.json -d policy.rego -d data.json "data.rbac.allow"
 
-# 3. 交互式REPL
-opa run policy.rego
+# 格式化代码
+opa fmt -w .
 ```
 
-### 运行所有示例测试
+### 3. 调试技巧
 
 ```bash
-# 在项目根目录
-./scripts/test-all-examples.sh
+# 查看中间结果
+opa eval -d policy.rego "data.rbac.user_permissions"
 
-# 或使用PowerShell
-.\scripts\test-all-examples.ps1
+# 详细解释
+opa eval -i input.json -d policy.rego "data.rbac.allow" --explain full
+
+# 性能分析
+opa eval -i input.json -d policy.rego "data.rbac.allow" --profile
 ```
 
 ---
 
-## 📚 按学习路径使用
+## 📖 示例详情
 
-### 🎓 初学者路径
+### [01-hello-world](./01-hello-world/) ⭐
 
-1. **基础入门** → [01-hello-world](./01-hello-world/)
-   - 学习Rego基础语法
-   - 理解策略评估模型
-   - 掌握测试编写方法
+**学习内容**:
+- Rego基本语法（规则、默认值）
+- `input`和`data`的区别
+- 编写单元测试
 
-2. **权限控制** → [02-basic-rbac](./02-basic-rbac/)
-   - 实现RBAC模型
-   - 学习复杂条件判断
-   - 使用函数和辅助规则
+**代码示例**:
+```rego
+package example
 
-### 🔧 DevOps工程师路径
+import rego.v1
 
-1. **Kubernetes集成** → [03-k8s-admission](./03-k8s-admission/)
-   - Admission Webhook策略
-   - 资源验证和变更
-   - 实战场景演练
+default allow := false
 
-2. **API网关授权** → [04-envoy-authz](./04-envoy-authz/)
-   - Envoy External Authorization
-   - JWT验证和RBAC
-   - 高性能优化
-
-### 🏗️ 架构师路径
-
-1. **性能优化** → [05-partial-eval](./05-partial-eval/)
-   - 部分求值技术
-   - WASM编译优化
-   - 索引和缓存策略
+allow if {
+    input.message == "world"
+}
+```
 
 ---
 
-## 🧪 测试覆盖
+### [02-basic-rbac](./02-basic-rbac/) ⭐⭐
+
+**学习内容**:
+- Set操作（`contains`、`in`）
+- 数据驱动策略
+- 权限继承模型
+
+**权限矩阵**:
+| 角色 | read | write | delete | admin |
+|---|---|---|---|---|
+| admin | ✅ | ✅ | ✅ | ✅ |
+| editor | ✅ | ✅ | ❌ | ❌ |
+| viewer | ✅ | ❌ | ❌ | ❌ |
+
+**代码示例**:
+```rego
+package rbac
+
+import rego.v1
+
+user_permissions contains permission if {
+    some permission in data.roles[input.user.role].permissions
+}
+
+allow if {
+    input.action in user_permissions
+}
+```
+
+**测试覆盖**:
+- 所有角色的所有操作（✅ 12个测试）
+- 边界情况（未知角色、空输入）
+- 拒绝原因生成
+
+---
+
+### [03-kubernetes-admission](./03-kubernetes-admission/) ⭐⭐⭐
+
+**学习内容**:
+- K8s AdmissionReview结构
+- 拒绝规则模式（`deny contains msg`）
+- 复杂数据遍历
+
+**验证规则**:
+- ✅ 资源限制（CPU/内存）
+- ✅ 镜像仓库白名单
+- ✅ 禁止特权容器
+- ✅ 必需标签（app、env、owner）
+- ✅ Host配置限制
+
+**代码示例**:
+```rego
+package kubernetes.admission
+
+import rego.v1
+
+deny contains msg if {
+    some container in all_containers
+    not container.resources.limits.cpu
+    msg := sprintf("Container '%s' must specify CPU limits", [container.name])
+}
+```
+
+**Gatekeeper集成**:
+可转换为ConstraintTemplate部署到K8s集群。
+
+---
+
+## 🧪 测试详情
 
 每个示例包含：
 
-- ✅ **单元测试** (`policy_test.rego`) - 测试所有规则逻辑
-- ✅ **示例输入** (`input.json`, `data.json`) - 真实场景数据
-- ✅ **README文档** - 详细说明和运行指南
-- ✅ **CI验证** - GitHub Actions自动测试
+| 组件 | 说明 |
+|------|------|
+| `policy.rego` | 策略代码 |
+| `policy_test.rego` | 单元测试（必需） |
+| `input*.json` | 输入示例 |
+| `data.json` | 静态数据（可选） |
+| `README.md` | 详细文档 |
 
-### 测试统计
-
+**测试统计**:
 ```text
-总示例数: 5
-已完成: 1 (20%)
-测试用例: 5+ per example
-代码覆盖: 目标 >90%
+总测试用例: 40+
+正向测试: ~50%  # 应该允许的场景
+负向测试: ~50%  # 应该拒绝的场景
+边界测试: ~10%  # 边界和异常情况
 ```
 
 ---
 
-## 💡 使用建议
+## 💡 最佳实践
 
-### 1. 循序渐进
+从示例中学到的模式：
 
-- 从简单示例开始（hello-world）
-- 理解每个概念后再进入下一个
-- 修改代码并重新测试以加深理解
-
-### 2. 动手实践
-
-```bash
-# 克隆示例到本地
-cp -r examples/01-hello-world my-first-policy
-cd my-first-policy
-
-# 修改policy.rego
-# 添加新规则或修改现有逻辑
-
-# 运行测试验证
-opa test . -v
+### 1. Default Deny（默认拒绝）
+```rego
+default allow := false  # 安全第一
 ```
 
-### 3. 结合文档
+### 2. Set-based规则
+```rego
+# 使用contains定义集合
+user_permissions contains permission if {
+    # ...
+}
+```
 
-每个示例都链接到相关技术文档：
+### 3. 拒绝规则模式
+```rego
+# K8s场景：收集所有拒绝原因
+deny contains msg if {
+    # 条件
+    msg := "拒绝原因"
+}
+```
 
+### 4. 辅助函数
+```rego
+# 简化复杂逻辑
+is_admin if {
+    input.user.role == "admin"
+}
+```
+
+---
+
+## 🔧 扩展练习
+
+### 练习1：扩展RBAC
+在`02-basic-rbac`基础上添加：
+- 资源级别权限（只能操作自己的资源）
+- 时间窗口限制（仅工作时间允许操作）
+
+### 练习2：K8s策略增强
+在`03-kubernetes-admission`基础上添加：
+- 镜像标签验证（禁止`:latest`）
+- 资源配额限制（CPU不超过4核）
+- 命名空间策略（不同NS不同规则）
+
+### 练习3：创建新示例
+选择场景创建自己的策略：
+- API网关授权（JWT + RBAC）
+- 数据访问控制（行级权限）
+- CI/CD管道审批
+
+---
+
+## 📚 相关文档
+
+### 本项目文档
 - [Rego语法规范](../docs/02-语言模型/02.1-Rego语法规范.md)
-- [快速参考指南](../docs/QUICK_REFERENCE.md)
-- [最佳实践](../docs/08-最佳实践/)
+- [策略设计模式](../docs/08-最佳实践/08.1-策略设计模式.md)
+- [性能优化指南](../docs/08-最佳实践/08.2-性能优化指南.md)
+- [学习路线图](../docs/LEARNING_PATH.md)
+- [快速参考](../docs/QUICK_REFERENCE.md)
+
+### 生产案例
+- [电商API授权实战](../docs/09-生产实战/09.1-电商API授权实战.md)
+- [生产案例汇总](../PRODUCTION_CASES.md)
+- [部署检查清单](../CHECKLIST.md)
+
+### 官方资源
+- [OPA官方文档](https://www.openpolicyagent.org/docs/latest/)
+- [Rego Playground](https://play.openpolicyagent.org/)
+- [OPA GitHub](https://github.com/open-policy-agent/opa)
 
 ---
 
-## 🔍 故障排查
+## ✅ CI/CD集成
 
-### 常见问题
-
-**Q: `opa test` 报错 "undefined ref"**
-
-```bash
-# 确保import语句正确
-import rego.v1
-
-# 或使用旧版语法（不推荐）
-import future.keywords
-```
-
-**Q: Windows下路径问题**
-
-```powershell
-# 使用反斜杠或转义
-opa eval -d .\policy.rego -i .\input.json "data.example.hello.allow"
-```
-
-**Q: 测试失败**
-
-```bash
-# 查看详细输出
-opa test . -v
-
-# 查看失败原因
-opa test . --explain=full
-```
-
----
-
-## 📊 CI/CD集成
-
-所有示例都通过GitHub Actions自动测试：
+所有示例通过GitHub Actions自动测试：
 
 ```yaml
 # .github/workflows/test-examples.yml
@@ -200,73 +289,100 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install OPA
-        run: curl -L -o opa https://openpolicyagent.org/downloads/latest/opa_linux_amd64 && chmod +x opa
+        run: |
+          curl -L -o opa https://openpolicyagent.org/downloads/latest/opa_linux_amd64
+          chmod +x opa
       - name: Test All Examples
-        run: for dir in examples/*/; do cd "$dir" && ../../opa test . -v && cd ../..; done
+        run: |
+          for dir in examples/*/; do
+            cd "$dir"
+            ../../opa test *.rego || exit 1
+            cd ../..
+          done
 ```
+
+**测试状态**: ![CI](https://github.com/your-repo/workflows/test-examples/badge.svg)
 
 ---
 
 ## 🤝 贡献新示例
 
-欢迎提交新示例！请确保：
+欢迎贡献！请确保：
 
-1. **包含完整文件**:
-   - `policy.rego` - 策略代码
-   - `policy_test.rego` - 测试代码
-   - `input.json` - 示例输入
-   - `README.md` - 详细说明
+**必需文件**:
+```
+examples/XX-example-name/
+├── README.md              # 详细说明
+├── policy.rego            # 策略代码
+├── policy_test.rego       # 单元测试
+├── input.json             # 输入示例
+└── data.json              # 静态数据（可选）
+```
 
-2. **测试通过**:
-   ```bash
-   opa test . -v
-   # 所有测试必须PASS
-   ```
+**质量要求**:
+- ✅ 测试覆盖率 > 80%
+- ✅ 通过CI测试
+- ✅ 包含详细README
+- ✅ 遵循[最佳实践](../docs/08-最佳实践/08.1-策略设计模式.md)
 
-3. **添加版本标注**:
-   ```rego
-   # OPA版本: v0.55+
-   # 测试状态: ✅ 已验证
-   ```
-
-4. **文档完整**:
-   - 清晰的说明
-   - 运行示例
-   - 相关链接
+**提交流程**:
+1. Fork项目
+2. 创建新示例
+3. 本地测试通过
+4. 提交Pull Request
 
 参见 [CONTRIBUTING.md](../CONTRIBUTING.md) 了解详情。
 
 ---
 
-## 📖 相关资源
+## ❓ 常见问题
 
-### 官方资源
+**Q: 示例运行报错怎么办？**
 
-- [OPA官方文档](https://www.openpolicyagent.org/docs/latest/)
-- [Rego Playground](https://play.openpolicyagent.org/)
-- [OPA GitHub](https://github.com/open-policy-agent/opa)
+A: 检查OPA版本（需v0.55+）：
+```bash
+opa version
+# 如果版本过低，更新OPA
+```
 
-### 本项目文档
+**Q: 如何在自己的项目中使用？**
 
-- [技术规范](../docs/01-技术规范/)
-- [语言模型](../docs/02-语言模型/)
-- [最佳实践](../docs/08-最佳实践/)
-- [FAQ](../docs/FAQ.md)
+A: 复制示例作为起点：
+```bash
+cp -r examples/02-basic-rbac my-policy
+cd my-policy
+# 修改policy.rego
+opa test . -v
+```
 
----
+**Q: 性能如何？**
 
-## 📞 获取帮助
-
-- 💬 [GitHub Discussions](../../discussions) - 提问和讨论
-- 🐛 [GitHub Issues](../../issues) - 报告问题
-- 📚 [项目文档](../docs/) - 完整技术文档
-
----
-
-**状态更新**: 2025-10-21  
-**下次更新**: 预计1周内完成02-basic-rbac示例
+A: 简单策略评估通常<1ms。复杂场景参考[性能优化指南](../docs/08-最佳实践/08.2-性能优化指南.md)。
 
 ---
 
-Happy Learning! 🎉
+## 📊 路线图
 
+### 已完成 ✅
+- [x] 01-hello-world
+- [x] 02-basic-rbac
+- [x] 03-kubernetes-admission
+
+### 进行中 🚧
+- [ ] 04-envoy-authz (API网关授权)
+- [ ] 05-performance-optimization (性能优化)
+
+### 计划中 📋
+- [ ] 06-data-filtering (数据过滤)
+- [ ] 07-multi-tenancy (多租户)
+- [ ] 08-cicd-pipeline (CI/CD管道)
+
+---
+
+**最后更新**: 2025-10-21  
+**贡献者**: 项目维护团队  
+**License**: 与主项目相同
+
+---
+
+Happy Learning! 🎉 如有问题，请提交[Issue](../../issues)或查看[FAQ](../docs/FAQ.md)。

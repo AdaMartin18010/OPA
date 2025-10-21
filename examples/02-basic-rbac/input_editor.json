@@ -1,0 +1,9 @@
+{
+  "user": {
+    "id": "bob",
+    "role": "editor"
+  },
+  "action": "write",
+  "resource": "document-456"
+}
+

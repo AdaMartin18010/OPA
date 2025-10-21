@@ -1,0 +1,9 @@
+{
+  "user": {
+    "id": "charlie",
+    "role": "viewer"
+  },
+  "action": "write",
+  "resource": "document-789"
+}
+

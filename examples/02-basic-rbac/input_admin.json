@@ -1,0 +1,9 @@
+{
+  "user": {
+    "id": "alice",
+    "role": "admin"
+  },
+  "action": "delete",
+  "resource": "document-123"
+}
+

@@ -1,0 +1,17 @@
+{
+  "roles": {
+    "admin": {
+      "permissions": ["read", "write", "delete", "admin"],
+      "description": "管理员 - 拥有所有权限"
+    },
+    "editor": {
+      "permissions": ["read", "write"],
+      "description": "编辑者 - 可以读写，但不能删除"
+    },
+    "viewer": {
+      "permissions": ["read"],
+      "description": "查看者 - 仅可读"
+    }
+  }
+}
+
