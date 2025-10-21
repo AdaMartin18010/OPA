@@ -93,6 +93,7 @@ docker-compose ps
 ```
 
 服务端口：
+
 - **Envoy**: `http://localhost:8000` (API Gateway)
 - **OPA**: `http://localhost:8181` (Authorization Service)
 - **Backend**: `http://localhost:8080` (后端服务)
@@ -434,6 +435,7 @@ services:
 ### 问题1：403 Forbidden
 
 **检查**:
+
 ```bash
 # 1. Token是否有效
 echo $ADMIN_TOKEN | cut -d'.' -f2 | base64 -d | jq
@@ -448,6 +450,7 @@ docker logs opa-envoy-authz-envoy-1
 ### 问题2：Connection Refused
 
 **检查服务状态**:
+
 ```bash
 # 所有服务是否运行
 docker-compose ps
@@ -459,6 +462,7 @@ docker exec -it envoy ping opa
 ### 问题3：Token过期
 
 **生成新Token**:
+
 ```bash
 # 使用jwt.io或本地工具生成
 # Header: {"alg": "HS256", "typ": "JWT"}
@@ -578,6 +582,7 @@ decision_logs:
 ✅ **生产就绪**: 高可用、监控、审计
 
 **关键收获**:
+
 - 理解零信任架构在API网关的应用
 - 掌握OPA gRPC协议集成
 - 学习JWT Token验证最佳实践
@@ -586,4 +591,3 @@ decision_logs:
 ---
 
 **下一步**: 尝试[数据过滤示例](../06-data-filtering/)，学习行级权限控制！
-

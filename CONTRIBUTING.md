@@ -26,7 +26,8 @@
 - 如有可能，建议修正方案
 
 **Issue 标题示例**：
-```
+
+```text
 [文档错误] 02.1-Rego语法规范.md 第123行语法错误
 [改进建议] 增加ABAC完整实现案例
 [疑问] 03.4-Top-Down求值器.md 统一算法描述不清
@@ -256,7 +257,7 @@ git commit -m "docs: 新增ABAC访问控制案例"
 
 **Commit 消息规范**：
 
-```
+```text
 <类型>: <简短描述>
 
 <详细描述>（可选）
@@ -265,6 +266,7 @@ git commit -m "docs: 新增ABAC访问控制案例"
 ```
 
 **类型标签**：
+
 - `docs`: 文档新增或修改
 - `fix`: 修复错误
 - `improve`: 改进现有内容
@@ -272,6 +274,7 @@ git commit -m "docs: 新增ABAC访问控制案例"
 - `style`: 格式调整（不改变内容）
 
 **示例**：
+
 ```bash
 docs: 新增05.3-合规性检查文档
 
@@ -413,7 +416,7 @@ opa eval -d policy.rego -i input.json "data.docauth.allow"
 
 - **问题讨论**: [GitHub Issues](https://github.com/your-repo/opa/issues)
 - **功能建议**: [GitHub Discussions](https://github.com/your-repo/opa/discussions)
-- **紧急问题**: 发送邮件至 maintainer@example.com
+- **紧急问题**: 发送邮件至 <maintainer@example.com>
 
 ---
 
@@ -452,4 +455,3 @@ opa eval -d policy.rego -i input.json "data.docauth.allow"
 
 **最后更新**: 2025年10月21日  
 **维护者**: OPA技术文档团队
-

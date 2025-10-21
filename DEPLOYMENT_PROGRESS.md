@@ -14,10 +14,10 @@
 
 | 文件 | 修改内容 | 状态 |
 |---|---|---|
-| `package.json` | 版本号 → v2.4.0<br>仓库地址 → AdaMartin18010/OPA<br>主页 → GitHub Pages URL | ✅ 完成 |
-| `docs/.vuepress/config.js` | GitHub导航链接<br>编辑链接配置<br>仓库信息 | ✅ 完成 |
-| `deploy.sh` | 部署仓库地址<br>站点URL | ✅ 完成 |
-| `.github/workflows/deploy-docs.yml` | 移除CNAME配置<br>优化部署参数 | ✅ 完成 |
+| `package.json` | 版本号 → v2.4.0 仓库地址 → AdaMartin18010/OPA 主页 → GitHub Pages URL | ✅ 完成 |
+| `docs/.vuepress/config.js` | GitHub导航链接 编辑链接配置 仓库信息 | ✅ 完成 |
+| `deploy.sh` | 部署仓库地址 站点URL | ✅ 完成 |
+| `.github/workflows/deploy-docs.yml` | 移除CNAME配置 优化部署参数 | ✅ 完成 |
 
 ### 2. Git提交记录 ✅
 
@@ -301,16 +301,19 @@ git push origin main
 ### 查看日志
 
 **GitHub Actions**:
+
 - <https://github.com/AdaMartin18010/OPA/actions>
 - 点击workflow查看详细日志
 
 **浏览器控制台**:
+
 - 按F12 → Console
 - 查看JavaScript错误
 
 ### 提交问题
 
 **GitHub Issues**:
+
 - <https://github.com/AdaMartin18010/OPA/issues>
 - 描述问题和错误信息
 
@@ -335,6 +338,7 @@ git push origin main
 ### 立即操作
 
 1. **等待网络恢复，执行推送**:
+
    ```bash
    git push origin main
    ```
@@ -381,4 +385,3 @@ git push origin main
 ---
 
 **📖 让OPA技术文档触达更多开发者！** 🚀
-

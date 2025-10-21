@@ -9,6 +9,7 @@
 ## 📋 场景说明
 
 实现一个简单的基于角色的访问控制（RBAC）系统，支持：
+
 - 3种角色：`admin`、`editor`、`viewer`
 - 4种操作：`read`、`write`、`delete`、`admin`
 - 权限继承：admin > editor > viewer
@@ -44,7 +45,8 @@ opa test . -v
 ```
 
 预期输出：
-```
+
+```text
 data.rbac.test_admin_can_read: PASS (0.5ms)
 data.rbac.test_admin_can_write: PASS (0.4ms)
 data.rbac.test_admin_can_delete: PASS (0.3ms)
@@ -64,6 +66,7 @@ opa eval -i input_admin.json -d policy.rego -d data.json "data.rbac.allow"
 ```
 
 预期输出：
+
 ```json
 {
   "result": [
@@ -90,7 +93,8 @@ opa eval -i input_viewer.json -d policy.rego -d data.json "data.rbac.allow" --fo
 ```
 
 预期输出：
-```
+
+```text
 false
 ```
 
@@ -197,6 +201,7 @@ test_editor_cannot_delete if {
 扩展策略支持资源级别权限（如：只能操作自己的资源）。
 
 **输入示例**：
+
 ```json
 {
   "user": {"id": "user123", "role": "editor"},
@@ -232,6 +237,7 @@ A: `contains`定义集合（Set），允许多个规则产生多个值。`:=`是
 **Q: 如何调试权限不生效？**
 
 A: 使用`opa eval`查看中间结果：
+
 ```bash
 opa eval -i input_admin.json -d policy.rego -d data.json "data.rbac.user_permissions"
 ```
@@ -243,4 +249,3 @@ A: 简单RBAC查询通常<1ms。对于复杂权限树，参考[性能优化指�
 ---
 
 **下一步**: 学习 [示例03：Kubernetes准入控制](../03-kubernetes-admission/README.md)
-

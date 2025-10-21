@@ -9,6 +9,7 @@
 ## 📋 场景说明
 
 实现Kubernetes准入控制策略，验证Pod资源配置：
+
 - ✅ 强制要求资源限制（CPU/内存）
 - ✅ 强制镜像来自可信仓库
 - ✅ 禁止特权容器
@@ -42,7 +43,8 @@ opa test . -v
 ```
 
 预期输出：
-```
+
+```text
 data.kubernetes.admission.test_valid_pod_allowed: PASS
 data.kubernetes.admission.test_missing_resources_denied: PASS
 data.kubernetes.admission.test_privileged_container_denied: PASS
@@ -59,7 +61,8 @@ opa eval -i input_valid_pod.json -d policy.rego "data.kubernetes.admission.deny"
 ```
 
 预期输出（空数组 = 通过）：
-```
+
+```text
 []
 ```
 
@@ -70,6 +73,7 @@ opa eval -i input_invalid_pod.json -d policy.rego "data.kubernetes.admission.den
 ```
 
 预期输出（包含拒绝原因）：
+
 ```json
 [
   "Container 'nginx' must specify CPU limits",
@@ -188,6 +192,7 @@ deny contains msg if {
 禁止使用`latest`标签，要求明确版本号。
 
 **提示**：
+
 ```rego
 deny contains msg if {
     some container in all_containers
@@ -201,6 +206,7 @@ deny contains msg if {
 限制单个容器资源上限（如CPU不超过4核）。
 
 **提示**：
+
 ```rego
 import rego.v1
 
@@ -224,6 +230,7 @@ parse_cpu(cpu_string) := cores if {
 不同命名空间应用不同策略（如`prod`命名空间要求更严格）。
 
 **提示**：
+
 ```rego
 is_prod_namespace if {
     input.request.namespace == "prod"
@@ -294,6 +301,7 @@ spec:
 **Q: 如何在真实集群测试？**
 
 A: 方法1（本地测试）：
+
 ```bash
 # 获取现有Pod的AdmissionReview格式
 kubectl get pod <pod-name> -o json | \
@@ -302,6 +310,7 @@ opa eval -i test_input.json -d policy.rego "data.kubernetes.admission.deny"
 ```
 
 方法2（Gatekeeper Audit）：
+
 ```bash
 # 部署为ConstraintTemplate和Constraint
 # 使用audit模式，不会拒绝资源，只记录违规
@@ -311,6 +320,7 @@ kubectl get constraint k8spodrequirements -o yaml
 **Q: 性能影响？**
 
 A: Gatekeeper webhook通常增加50-100ms延迟。优化建议：
+
 - 使用简单的规则
 - 避免复杂的循环和递归
 - 参考[性能优化指南](../../docs/08-最佳实践/08.2-性能优化指南.md)
@@ -318,6 +328,7 @@ A: Gatekeeper webhook通常增加50-100ms延迟。优化建议：
 **Q: 如何处理例外？**
 
 A: 使用Constraint的`match.excludedNamespaces`或自定义豁免逻辑：
+
 ```rego
 # 豁免系统命名空间
 is_exempt_namespace if {
@@ -333,4 +344,3 @@ deny contains msg if {
 ---
 
 **下一步**: 学习 [示例04：性能优化](../04-performance-optimization/README.md)
-
