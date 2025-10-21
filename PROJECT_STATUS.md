@@ -126,7 +126,7 @@ commit 7d70c7b - style: 优化英文摘要格式
 
 ### 未提交的修改
 
-```
+```text
 modified: PRODUCTION_CASES.md
 modified: PROGRESS_REPORT_2025-10-21.md
 modified: docs/07-概念图谱/07.1-核心概念定义.md
@@ -257,11 +257,12 @@ E:\_src\OPA/
 
 ## 📞 联系与支持
 
-**项目地址**: https://github.com/YOUR_USERNAME/OPA
+**项目地址**: <https://github.com/YOUR_USERNAME/OPA>
 
-**在线文档** (待部署): https://YOUR_USERNAME.github.io/OPA/
+**在线文档** (待部署): <https://YOUR_USERNAME.github.io/OPA/>
 
 **本地查看**:
+
 ```bash
 cd E:\_src\OPA
 npm run docs:dev
@@ -286,4 +287,3 @@ npm run docs:dev
 **生成时间**: 2025年10月21日  
 **报告版本**: v1.0  
 **下次更新**: 网络恢复后Git同步完成
-
