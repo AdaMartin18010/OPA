@@ -52,6 +52,7 @@
 ### 与Rego的连接
 
 每篇文档都包含：
+
 - ✅ Rego语法到形式化理论的映射
 - ✅ OPA实现的理论依据
 - ✅ 实际应用场景分析
@@ -168,27 +169,27 @@
 
 ### 类型系统
 
-6. **Progress**: 良类型表达式不会卡住
-7. **Preservation**: 求值保持类型
-8. **Type Safety**: Progress + Preservation
-9. **主类型定理**: 存在最一般类型
-10. **Substitution引理**: 替换保持类型
+1. **Progress**: 良类型表达式不会卡住
+2. **Preservation**: 求值保持类型
+3. **Type Safety**: Progress + Preservation
+4. **主类型定理**: 存在最一般类型
+5. **Substitution引理**: 替换保持类型
 
 ### 优化理论
 
-11. **特化正确性**: `[[P_S]](D) = [[P]](S, D)`
-12. **第一Futamura投影**: 特化解释器=编译
-13. **BTA安全性**: 静态标注可完全求值
-14. **Tarski不动点**: 单调函数有最小不动点
-15. **Galois连接**: 保证抽象正确性
+1. **特化正确性**: `[[P_S]](D) = [[P]](S, D)`
+2. **第一Futamura投影**: 特化解释器=编译
+3. **BTA安全性**: 静态标注可完全求值
+4. **Tarski不动点**: 单调函数有最小不动点
+5. **Galois连接**: 保证抽象正确性
 
 ### 并发理论
 
-16. **无竞争保证**: 无数据竞争→顺序一致
-17. **2PL串行化**: 两阶段锁保证串行化
-18. **线性一致性**: 存在全局原子顺序
-19. **CAP定理**: 最多选2个（C/A/P）
-20. **互斥性**: 锁保护消除竞争
+1. **无竞争保证**: 无数据竞争→顺序一致
+2. **2PL串行化**: 两阶段锁保证串行化
+3. **线性一致性**: 存在全局原子顺序
+4. **CAP定理**: 最多选2个（C/A/P）
+5. **互斥性**: 锁保护消除竞争
 
 ---
 
@@ -204,26 +205,26 @@
 
 ### 类型系统 (4本)
 
-6. Pierce, B.C. "Types and Programming Languages"
-7. Cardelli, L. "Type Systems"
-8. Milner, R. "A Theory of Type Polymorphism"
-9. Wright & Felleisen "A Syntactic Approach to Type Soundness"
+1. Pierce, B.C. "Types and Programming Languages"
+2. Cardelli, L. "Type Systems"
+3. Milner, R. "A Theory of Type Polymorphism"
+4. Wright & Felleisen "A Syntactic Approach to Type Soundness"
 
 ### 编译技术 (5本)
 
-10. "Compilers: Principles, Techniques, and Tools" (龙书)
-11. "Modern Compiler Implementation" (虎书)
-12. Jones et al. "Partial Evaluation and Automatic Program Generation"
-13. Futamura, Y. "Partial Evaluation of Computation Process"
-14. Cousot & Cousot "Abstract Interpretation"
+1. "Compilers: Principles, Techniques, and Tools" (龙书)
+2. "Modern Compiler Implementation" (虎书)
+3. Jones et al. "Partial Evaluation and Automatic Program Generation"
+4. Futamura, Y. "Partial Evaluation of Computation Process"
+5. Cousot & Cousot "Abstract Interpretation"
 
 ### 并发理论 (5本)
 
-15. Lamport, L. "How to Make a Multiprocessor Computer..."
-16. Herlihy & Wing "Linearizability"
-17. Brewer, E. "CAP Twelve Years Later"
-18. Ongaro & Ousterhout "Raft Consensus Algorithm"
-19. Go Memory Model
+1. Lamport, L. "How to Make a Multiprocessor Computer..."
+2. Herlihy & Wing "Linearizability"
+3. Brewer, E. "CAP Twelve Years Later"
+4. Ongaro & Ousterhout "Raft Consensus Algorithm"
+5. Go Memory Model
 
 ---
 
@@ -256,9 +257,11 @@
 ### 项目定位
 
 **从**:
+
 - 中文社区最全面的OPA实践指南
 
 **到**:
+
 - 中文社区最全面、**最深入**的OPA技术资源
 - 学术界认可的形式化参考
 - 源码贡献者的理论宝典
@@ -329,4 +332,3 @@
 **完成日期**: 2025年10月23日
 
 **🎉 让我们继续打造世界级的OPA技术资源！** 🚀
-
