@@ -1,0 +1,21 @@
+labels: ["idea", "讨论"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        💡 分享您的想法和创意！
+
+  - type: textarea
+    attributes:
+      label: 想法描述
+      description: 详细描述您的想法
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: 价值与影响
+      description: 这个想法有什么价值？
+    validations:
+      required: false
+

@@ -1,0 +1,96 @@
+name: ✨ 功能建议
+description: 建议新功能或改进
+title: "[Feature] "
+labels: ["enhancement", "待分类"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢您的建议！请详细描述您希望增加的功能或改进。
+
+  - type: dropdown
+    id: feature-type
+    attributes:
+      label: 建议类型
+      description: 这是什么类型的建议？
+      options:
+        - 新增文档主题
+        - 改进现有文档
+        - 新增代码示例
+        - 新增工具/脚本
+        - 改进网站功能
+        - 其他
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: 问题背景
+      description: 这个建议解决什么问题？
+      placeholder: 当前存在的问题或不便之处...
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: 建议方案
+      description: 您建议如何解决？
+      placeholder: 详细描述您建议的解决方案...
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 替代方案
+      description: 您考虑过其他替代方案吗？
+      placeholder: 描述其他可能的解决方案...
+    validations:
+      required: false
+
+  - type: textarea
+    id: examples
+    attributes:
+      label: 参考示例
+      description: 有类似的实现参考吗？
+      placeholder: |
+        其他项目或文档的类似功能链接...
+    validations:
+      required: false
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: 优先级
+      description: 您认为这个功能有多重要？
+      options:
+        - 低 - 锦上添花
+        - 中 - 希望有
+        - 高 - 非常需要
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: 补充信息
+      description: 其他任何相关信息
+      placeholder: 任何其他有助于理解建议的信息...
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: 检查清单
+      description: 提交前请确认
+      options:
+        - label: 我已搜索现有Issue，确认这不是重复建议
+          required: true
+        - label: 这个建议符合项目目标
+          required: false
+        - label: 我愿意贡献实现此功能
+          required: false
+

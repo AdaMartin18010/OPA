@@ -1,497 +1,670 @@
-# 贡献指南（Contributing Guide）
+# 🤝 贡献指南
 
-感谢您对OPA技术文档项目的关注！我们欢迎各种形式的贡献。
+> **欢迎参与OPA技术文档项目！**  
+> 本指南将帮助您快速上手，成为项目贡献者。
 
 ---
 
 ## 📋 目录
 
-- [贡献指南（Contributing Guide）](#贡献指南contributing-guide)
-  - [📋 目录](#-目录)
-  - [🤝 贡献方式](#-贡献方式)
-    - [1. 报告问题](#1-报告问题)
-    - [2. 改进现有文档](#2-改进现有文档)
-    - [3. 新增文档](#3-新增文档)
-  - [📝 文档规范](#-文档规范)
-    - [文件结构](#文件结构)
-    - [Markdown 规范](#markdown-规范)
-      - [标题层级](#标题层级)
-      - [代码块](#代码块)
-      - [强调格式](#强调格式)
-      - [列表](#列表)
-      - [表格](#表格)
-      - [链接](#链接)
-    - [术语规范](#术语规范)
-    - [代码示例规范](#代码示例规范)
-      - [Rego 代码](#rego-代码)
-      - [命令示例](#命令示例)
-  - [🔄 提交流程](#-提交流程)
-    - [1. Fork 项目](#1-fork-项目)
-    - [2. 克隆到本地](#2-克隆到本地)
-    - [3. 创建分支](#3-创建分支)
-    - [4. 进行修改](#4-进行修改)
-    - [5. 提交变更](#5-提交变更)
-    - [6. 推送分支](#6-推送分支)
-    - [7. 创建 Pull Request](#7-创建-pull-request)
-  - [💻 代码示例](#-代码示例)
-    - [完整性要求](#完整性要求)
-    - [示例模板](#示例模板)
-  - [✅ 审核标准](#-审核标准)
-    - [内容质量](#内容质量)
-    - [格式规范](#格式规范)
-    - [文档结构](#文档结构)
-    - [示例代码](#示例代码)
-  - [📊 文档更新优先级](#-文档更新优先级)
-    - [高优先级](#高优先级)
-    - [中优先级](#中优先级)
-    - [低优先级](#低优先级)
-  - [📞 联系方式](#-联系方式)
-  - [🎯 行为准则](#-行为准则)
-    - [我们的承诺](#我们的承诺)
-    - [不可接受的行为](#不可接受的行为)
-    - [执行](#执行)
-  - [🙏 致谢](#-致谢)
-
+- [行为准则](#行为准则)
+- [如何贡献](#如何贡献)
+- [贡献类型](#贡献类型)
+- [开发流程](#开发流程)
+- [代码规范](#代码规范)
+- [文档规范](#文档规范)
+- [提交规范](#提交规范)
+- [Pull Request流程](#pull-request流程)
+- [贡献者荣誉](#贡献者荣誉)
+- [获取帮助](#获取帮助)
 
 ---
 
-## 🤝 贡献方式
+## 🌟 行为准则
+
+### 我们的承诺
+
+我们承诺为所有人提供一个开放、友好、多元和包容的环境。
+
+### 基本准则
+
+- ✅ 尊重不同的观点和经验
+- ✅ 接受建设性的批评
+- ✅ 关注社区的最佳利益
+- ✅ 对其他社区成员表现出同理心
+- ❌ 使用性别化语言或图像
+- ❌ 人身攻击或政治攻击
+- ❌ 公开或私下骚扰
+- ❌ 未经许可发布他人信息
+
+---
+
+## 🎯 如何贡献
 
 ### 1. 报告问题
 
-如果您发现文档中的错误或不清楚的地方：
+发现问题？请通过以下方式报告：
 
-- 在 [Issues](https://github.com/your-repo/opa/issues) 中创建新问题
-- 清楚描述问题所在位置和具体内容
-- 如有可能，建议修正方案
+- 🐛 [Bug报告](../../issues/new?template=bug_report.yml) - 文档错误、代码bug
+- 📖 [文档改进](../../issues/new?template=documentation.yml) - 内容不清晰、需要补充
+- ❓ [问题咨询](../../issues/new?template=question.yml) - 使用疑问
 
-**Issue 标题示例**：
+### 2. 提出建议
 
-```text
-[文档错误] 02.1-Rego语法规范.md 第123行语法错误
-[改进建议] 增加ABAC完整实现案例
-[疑问] 03.4-Top-Down求值器.md 统一算法描述不清
+有好想法？欢迎分享：
+
+- ✨ [功能建议](../../issues/new?template=feature_request.yml) - 新功能、新主题
+- 💡 [想法讨论](../../discussions/new?category=ideas) - 创意交流
+- 🌟 [案例展示](../../discussions/new?category=showcase) - 分享您的项目
+
+### 3. 贡献代码/文档
+
+准备动手？请查看：
+
+- 📝 [Good First Issue](../../issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) - 适合新手
+- 🆘 [Help Wanted](../../issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22) - 需要帮助
+- 🏆 [Hacktoberfest](../../issues?q=is%3Aissue+is%3Aopen+label%3Ahacktoberfest) - 活动任务
+
+---
+
+## 🛠️ 贡献类型
+
+### 1. 文档贡献 📖
+
+**适合**: 所有人，无需编程经验
+
+**贡献方式**:
+
+- ✍️ 修正拼写、语法错误
+- 📝 改进表达，让内容更清晰
+- 📚 补充缺失的章节
+- 🌍 翻译成其他语言
+- 📊 添加图表、流程图
+
+**示例**:
+
+```markdown
+# 修改前
+这个函数用于计算结果
+
+# 修改后  
+`array.slice(array, startIndex, stopIndex)` 函数用于截取数组的子集，
+返回从 `startIndex`（包含）到 `stopIndex`（不包含）的元素。
 ```
 
-### 2. 改进现有文档
+### 2. 代码示例贡献 💻
 
-- 修正错别字、格式问题
-- 补充遗漏的内容
-- 优化表达和示例
-- 更新过时信息
+**适合**: 熟悉OPA/Rego的开发者
 
-### 3. 新增文档
+**贡献方式**:
 
-如果您想新增文档，请先：
+- 🧪 添加新的代码示例
+- ✅ 增加测试用例
+- 🐛 修复示例bug
+- ⚡ 优化性能
+- 🔧 改进配置
 
-1. 在 Issues 中提出建议，说明文档主题和大纲
-2. 等待维护者反馈，确认是否符合项目方向
-3. 开始编写，并在 PR 中说明新增内容的价值
+**要求**:
+
+- 包含完整的README说明
+- 至少5个测试用例
+- 通过CI/CD自动测试
+- 提供运行说明
+
+**示例结构**:
+
+```text
+examples/07-new-example/
+├── README.md          # 详细说明
+├── policy.rego        # 策略代码
+├── policy_test.rego   # 单元测试
+├── data.json          # 测试数据
+├── input.json         # 输入示例
+└── demo.sh            # 运行脚本
+```
+
+### 3. 工具/脚本贡献 🔧
+
+**适合**: 熟悉自动化的开发者
+
+**贡献方式**:
+
+- 🤖 CI/CD改进
+- 📊 监控脚本
+- 🔍 验证工具
+- 📈 分析脚本
+
+### 4. 社区贡献 👥
+
+**适合**: 所有人
+
+**贡献方式**:
+
+- 💬 回答问题（Issues/Discussions）
+- 📢 分享项目
+- 🎤 演讲分享
+- 📝 撰写博客
+
+---
+
+## 🚀 开发流程
+
+### 准备环境
+
+```bash
+# 1. Fork项目
+# 在GitHub上点击 "Fork" 按钮
+
+# 2. 克隆仓库
+git clone https://github.com/YOUR_USERNAME/OPA.git
+cd OPA
+
+# 3. 添加上游仓库
+git remote add upstream https://github.com/AdaMartin18010/OPA.git
+
+# 4. 创建分支
+git checkout -b feature/your-feature-name
+```
+
+### 本地开发
+
+```bash
+# 安装依赖
+npm install
+
+# 启动开发服务器
+npm run docs:dev
+
+# 在浏览器中访问 http://localhost:8080
+```
+
+### 测试代码示例
+
+```bash
+# 安装OPA（如果还没有）
+# macOS
+brew install opa
+
+# Linux
+curl -L -o opa https://openpolicyagent.org/downloads/latest/opa_linux_amd64_static
+chmod +x opa
+sudo mv opa /usr/local/bin/
+
+# 运行测试
+opa test examples/01-hello-world/ -v
+opa test examples/02-basic-rbac/ -v
+# ...测试所有示例
+
+# 运行所有测试
+npm test
+```
+
+### 构建文档
+
+```bash
+# 构建生产版本
+npm run docs:build
+
+# 预览构建结果
+npm run docs:serve
+```
+
+---
+
+## 📐 代码规范
+
+### Rego代码规范
+
+```rego
+# ✅ 好的示例
+import rego.v1
+
+# 包名使用小写，用点分隔
+package example.rbac
+
+# 使用有意义的规则名
+allow if {
+    # 使用4个空格缩进
+    user_has_permission
+    resource_matches
+}
+
+# 辅助规则使用下划线命名
+user_has_permission if {
+    some role in input.user.roles
+    role == "admin"
+}
+
+# ❌ 避免的做法
+# 1. 不要使用Rego v0语法
+allow = true {  # 旧语法
+    input.user == "admin"
+}
+
+# 2. 避免单字母变量
+allow if {
+    some x in input.y  # 不清晰
+}
+
+# 3. 避免过于复杂的规则
+allow if {
+    # 超过20行的规则应该拆分
+}
+```
+
+### 测试规范
+
+```rego
+# 测试文件命名: *_test.rego
+package example.rbac_test
+
+import rego.v1
+import data.example.rbac
+
+# 测试名称清晰描述测试场景
+test_admin_can_access_all_resources if {
+    result := rbac.allow with input as {
+        "user": {"roles": ["admin"]},
+        "resource": "sensitive-data"
+    }
+    result == true
+}
+
+# 每个测试应该独立，可以单独运行
+test_user_cannot_access_admin_resources if {
+    result := rbac.allow with input as {
+        "user": {"roles": ["user"]},
+        "resource": "admin-panel"
+    }
+    result == false
+}
+
+# 测试边界情况
+test_missing_user_roles_denies_access if {
+    result := rbac.allow with input as {
+        "user": {},
+        "resource": "data"
+    }
+    result == false
+}
+```
+
+### JSON/YAML格式
+
+```json
+{
+  "user": {
+    "id": "user-123",
+    "name": "Alice",
+    "roles": ["editor", "viewer"]
+  }
+}
+```
+
+- 使用2空格缩进
+- 键名使用snake_case
+- 保持一致性
 
 ---
 
 ## 📝 文档规范
 
-### 文件结构
-
-每篇文档应包含：
+### Markdown规范
 
 ```markdown
-# 文档标题（中英文）
+# 一级标题 - 每个文档只有一个
 
-> **更新日期**: YYYY年MM月DD日  
-> **关键词**: 关键词1、关键词2、关键词3  
-> **难度**: ⭐⭐⭐  
-> **预计阅读时间**: XX分钟
+## 二级标题 - 主要章节
 
----
+### 三级标题 - 子章节
 
-## 目录
+#### 四级标题 - 详细内容
 
-[自动生成的目录]
+##### 五级标题 - 很少使用
 
-## 1. 概述
+## 格式规范
 
-[简要介绍本文档的主题和覆盖范围]
+- **加粗** 用于强调关键概念
+- *斜体* 用于引入新术语（首次）
+- `代码` 用于代码片段、文件名、函数名
+- [链接](url) 使用相对路径
 
-## 2. 核心内容
+## 代码块
 
-[详细的技术内容]
-
----
-
-**相关文档**：
-- [相关文档1](../路径/文档.md)
-- [相关文档2](../路径/文档.md)
-
-**参考资源**：
-- 官方文档链接
-- 相关技术文章
-```
-
-### Markdown 规范
-
-#### 标题层级
-
-```markdown
-# H1 - 文档标题（每个文档只有一个）
-## H2 - 主要章节
-### H3 - 次级章节
-#### H4 - 详细说明
-```
-
-#### 代码块
-
-````markdown
 ```rego
-# Rego 代码
+# 使用语言标识符
+package example
+
 allow if {
     input.user == "admin"
 }
 ```
 
-```bash
-# Shell 命令
-opa eval -d policy.rego "data.authz.allow"
-```
+## 表格
 
-```json
-{
-  "comment": "JSON 数据"
-}
-```
-````
-
-#### 强调格式
-
-```markdown
-- **粗体**: 重要概念、关键词
-- *斜体*: 引用、术语首次出现
-- `代码`: 代码片段、文件名、命令
-```
-
-#### 列表
-
-```markdown
-有序列表：
-1. 第一步
-2. 第二步
-3. 第三步
-
-无序列表：
-- 要点一
-- 要点二
-  - 子要点
-```
-
-#### 表格
-
-```markdown
 | 列1 | 列2 | 列3 |
 |-----|-----|-----|
-| 内容1 | 内容2 | 内容3 |
+| 数据 | 数据 | 数据 |
+
+## 列表
+
+1. 有序列表项
+2. 第二项
+
+- 无序列表项
+- 第二项
+
+## 警告框
+
+> **⚠️ 注意**: 重要提示
+> 
+> **✅ 提示**: 有用建议
+> 
+> **❌ 警告**: 避免的做法
 ```
-
-#### 链接
-
-```markdown
-# 外部链接
-[OPA官方文档](https://www.openpolicyagent.org/docs/)
-
-# 内部文档链接
-[相关章节](./01-技术规范/01.1-API规范.md)
-
-# 锚点链接
-[跳转到章节](#核心内容)
-```
-
-### 术语规范
-
-| 术语 | 正确用法 | 错误用法 |
-|------|---------|---------|
-| OPA | Open Policy Agent (首次) / OPA | opa / Opa |
-| Rego | Rego语言 | rego / REGO |
-| Kubernetes | Kubernetes / K8s | k8s / kubernetes |
-| RBAC | RBAC / 基于角色的访问控制 | Rbac / rbac |
-| API | API / 应用程序接口 | api / Api |
-
-### 代码示例规范
-
-#### Rego 代码
-
-```rego
-# ✅ 好的示例：有注释、结构清晰
-package authz
-
-import future.keywords.if
-
-# 允许管理员访问所有资源
-allow if {
-    input.user.role == "admin"
-}
-
-# 允许用户访问自己的资源
-allow if {
-    input.user.id == input.resource.owner
-}
-```
-
-```rego
-# ❌ 不好的示例：无注释、不清晰
-package authz
-allow{input.user.role=="admin"}
-allow{input.user.id==input.resource.owner}
-```
-
-#### 命令示例
-
-```bash
-# ✅ 好的示例：有说明、有输出
-# 启动OPA服务器
-opa run --server --addr :8181
-
-# 输出:
-# {"level":"info","msg":"Starting server","time":"..."}
-```
-
----
-
-## 🔄 提交流程
-
-### 1. Fork 项目
-
-点击右上角 "Fork" 按钮，创建您的副本。
-
-### 2. 克隆到本地
-
-```bash
-git clone https://github.com/your-username/opa.git
-cd opa
-```
-
-### 3. 创建分支
-
-```bash
-# 功能分支
-git checkout -b feature/new-document
-
-# 修复分支
-git checkout -b fix/typo-in-readme
-
-# 改进分支
-git checkout -b improve/api-spec-examples
-```
-
-### 4. 进行修改
-
-- 遵循文档规范编写内容
-- 确保所有链接有效
-- 测试代码示例的正确性
-
-### 5. 提交变更
-
-```bash
-git add .
-git commit -m "docs: 新增ABAC访问控制案例"
-```
-
-**Commit 消息规范**：
-
-```text
-<类型>: <简短描述>
-
-<详细描述>（可选）
-
-<关闭的Issue>（可选）
-```
-
-**类型标签**：
-
-- `docs`: 文档新增或修改
-- `fix`: 修复错误
-- `improve`: 改进现有内容
-- `refactor`: 重构文档结构
-- `style`: 格式调整（不改变内容）
-
-**示例**：
-
-```bash
-docs: 新增05.3-合规性检查文档
-
-详细说明：
-- 添加完整的合规性检查场景
-- 包含OPA、GDPR、HIPAA示例
-- 提供自动化检查脚本
-
-Closes #42
-```
-
-### 6. 推送分支
-
-```bash
-git push origin feature/new-document
-```
-
-### 7. 创建 Pull Request
-
-- 在 GitHub 上点击 "New Pull Request"
-- 填写 PR 模板（描述、变更内容、相关Issue）
-- 等待审核反馈
-
----
-
-## 💻 代码示例
-
-### 完整性要求
-
-每个代码示例应该：
-
-1. **可运行**: 能够直接复制粘贴执行
-2. **有注释**: 说明关键步骤和逻辑
-3. **有输出**: 展示预期结果
-4. **有上下文**: 说明使用场景
-
-### 示例模板
-
-````markdown
-**场景**: 用户访问文档系统
-
-**数据模型**:
-```json
-{
-  "users": {
-    "alice": {"role": "admin"},
-    "bob": {"role": "user"}
-  }
-}
-```
-
-**策略**:
-```rego
-package docauth
-
-import future.keywords.if
-
-# 管理员可以访问所有文档
-allow if {
-    input.user.role == "admin"
-}
-```
-
-**测试**:
-```bash
-opa eval -d policy.rego -i input.json "data.docauth.allow"
-```
-
-**输出**:
-```json
-{
-  "result": [{"expressions": [{"value": true}]}]
-}
-```
-````
-
----
-
-## ✅ 审核标准
-
-您的 PR 将根据以下标准审核：
-
-### 内容质量
-
-- [ ] 技术准确性：内容正确，无误导
-- [ ] 完整性：覆盖主题的核心要点
-- [ ] 清晰性：表达清楚，易于理解
-- [ ] 实用性：提供可用的示例和建议
-
-### 格式规范
-
-- [ ] Markdown 格式正确
-- [ ] 代码块语法高亮标记正确
-- [ ] 链接有效且格式统一
-- [ ] 图表清晰（如有）
 
 ### 文档结构
 
-- [ ] 标题层级合理
-- [ ] 章节组织清晰
-- [ ] 交叉引用完整
-- [ ] 目录自动生成（建议）
+```markdown
+# 文档标题
 
-### 示例代码
-
-- [ ] 代码可运行
-- [ ] 有充分注释
-- [ ] 遵循最佳实践
-- [ ] 展示预期输出
+> **简介**: 一句话描述本文档内容  
+> **适用版本**: OPA v0.68+  
+> **难度等级**: ⭐⭐⭐ 中级  
+> **预计阅读时间**: 30分钟
 
 ---
 
-## 📊 文档更新优先级
+## 📋 目录
 
-### 高优先级
-
-- 修正技术错误
-- 补充缺失的重要内容
-- 更新过时的信息（版本、API等）
-- 修复损坏的链接
-
-### 中优先级
-
-- 改进现有示例
-- 增加实战案例
-- 优化文档结构
-- 补充形式化证明
-
-### 低优先级
-
-- 格式美化
-- 措辞优化
-- 增加图表
-- 翻译其他语言
+- [概述](#概述)
+- [核心概念](#核心概念)
+- [实践示例](#实践示例)
+- [最佳实践](#最佳实践)
+- [常见问题](#常见问题)
 
 ---
 
-## 📞 联系方式
+## 概述
 
-- **问题讨论**: [GitHub Issues](https://github.com/your-repo/opa/issues)
-- **功能建议**: [GitHub Discussions](https://github.com/your-repo/opa/discussions)
-- **紧急问题**: 发送邮件至 <maintainer@example.com>
+[概述内容]
+
+## 核心概念
+
+### 子概念1
+
+[内容]
+
+### 子概念2
+
+[内容]
+
+## 实践示例
+
+### 示例1: [标题]
+
+[代码和说明]
+
+## 最佳实践
+
+- ✅ 推荐做法
+- ❌ 避免做法
+
+## 常见问题
+
+### Q: [问题]
+
+A: [答案]
 
 ---
 
-## 🎯 行为准则
+**参考资料**:
 
-### 我们的承诺
+- [链接1](url)
+- [链接2](url)
 
-为了营造开放和友好的环境，我们承诺：
+**相关文档**:
 
-- 尊重不同的观点和经验
-- 优雅地接受建设性批评
-- 关注对社区最有利的事情
-- 对其他社区成员表示同理心
+- [文档1](../path/to/doc.md)
+- [文档2](../path/to/doc.md)
+```
 
-### 不可接受的行为
+### 中英文混排规范
 
-- 使用性别化语言或图像
-- 侮辱或贬低性评论
-- 公开或私下骚扰
-- 未经许可发布他人私人信息
-- 其他不道德或不专业的行为
+```markdown
+# ✅ 正确示例
 
-### 执行
+OPA（Open Policy Agent）是一个开源的策略引擎。
 
-违反行为准则的行为可以向项目维护者报告。所有投诉都将被审查和调查。
+使用 `rego.v1` 语法可以启用新特性。
+
+Kubernetes 集成需要 v1.23+ 版本。
+
+# ❌ 错误示例
+
+OPA(Open Policy Agent)是一个开源的策略引擎。  # 缺少空格
+
+使用`rego.v1`语法可以启用新特性。  # 中文与代码间需要空格
+```
+
+**规则**:
+
+1. 中文与英文之间加空格
+2. 中文与数字之间加空格
+3. 中文与代码之间加空格
+4. 标点符号使用中文全角（。，；：？！）
+5. 英文内容使用英文标点（., ;: ?!）
+
+---
+
+## 📊 提交规范
+
+### Commit Message格式
+
+```text
+<type>(<scope>): <subject>
+
+<body>
+
+<footer>
+```
+
+### Type类型
+
+| Type | 说明 | 示例 |
+|------|------|------|
+| `feat` | 新功能 | feat: 添加Envoy集成示例 |
+| `fix` | Bug修复 | fix: 修正RBAC示例中的权限判断 |
+| `docs` | 文档更新 | docs: 更新API规范文档 |
+| `style` | 格式调整 | style: 统一代码缩进格式 |
+| `refactor` | 重构 | refactor: 优化部分求值示例 |
+| `test` | 测试相关 | test: 增加K8s示例测试用例 |
+| `chore` | 构建/工具 | chore: 更新依赖版本 |
+| `perf` | 性能优化 | perf: 优化查询性能 |
+
+### Scope范围
+
+- `docs` - 文档
+- `examples` - 代码示例
+- `ci` - CI/CD
+- `config` - 配置文件
+
+### 示例
+
+```bash
+# 好的提交消息
+feat(examples): 添加数据过滤示例
+
+添加了示例06-data-filtering，展示行级权限控制。
+- 包含50+测试用例
+- 支持多租户数据隔离
+- 提供完整README文档
+
+Closes #42
+
+# 简单提交
+docs: 修正拼写错误
+
+# 破坏性变更
+feat(rego)!: 迁移到Rego v1语法
+
+BREAKING CHANGE: 所有示例代码已迁移到Rego v1语法
+```
+
+---
+
+## 🔄 Pull Request流程
+
+### 1. 提交前检查
+
+```bash
+# 格式检查
+npm run lint
+
+# 运行测试
+npm test
+
+# 构建文档
+npm run docs:build
+```
+
+### 2. 创建PR
+
+1. Push到您的Fork仓库
+
+```bash
+git push origin feature/your-feature-name
+```
+
+2. 在GitHub上创建Pull Request
+
+3. 填写PR模板
+
+```markdown
+## 变更类型
+
+- [ ] 文档更新
+- [ ] 新增示例
+- [ ] Bug修复
+- [ ] 功能增强
+
+## 变更说明
+
+[描述您的变更]
+
+## 测试
+
+- [ ] 已通过本地测试
+- [ ] 已添加单元测试
+- [ ] 已更新相关文档
+
+## 关联Issue
+
+Closes #123
+
+## 检查清单
+
+- [ ] 代码符合规范
+- [ ] 测试通过
+- [ ] 文档已更新
+- [ ] Commit message规范
+```
+
+### 3. Code Review
+
+- 响应审查意见
+- 及时更新PR
+- 保持讨论友好
+
+### 4. 合并
+
+- 等待维护者审核
+- CI/CD检查通过
+- 获得批准后合并
+
+---
+
+## 🏆 贡献者荣誉
+
+### 荣誉等级
+
+| 等级 | 徽章 | 条件 |
+|------|------|------|
+| 新手贡献者 | 🌱 | 首次PR合并 |
+| 活跃贡献者 | 🌟 | 5+ PR合并 |
+| 核心贡献者 | 💎 | 20+ PR合并 |
+| 维护者 | 👑 | 长期活跃，负责审核 |
+
+### 贡献者列表
+
+感谢所有贡献者！您的名字将出现在：
+
+- 项目README
+- 贡献者页面
+- 发布说明
+
+### 特殊贡献奖励
+
+- 🎖️ 最佳文档贡献奖
+- 🏅 最佳代码示例奖
+- 🥇 社区之星
+
+---
+
+## ❓ 获取帮助
+
+### 遇到问题？
+
+- 📖 查看 [FAQ](docs/FAQ.md)
+- 💬 加入 [GitHub Discussions](../../discussions)
+- ❓ 提问 [Question Issue](../../issues/new?template=question.yml)
+
+### 技术交流
+
+- 💻 代码问题: [Stack Overflow](https://stackoverflow.com/questions/tagged/open-policy-agent)
+- 🐛 Bug报告: [GitHub Issues](../../issues)
+- 💡 功能建议: [GitHub Discussions](../../discussions)
+
+### 联系维护者
+
+- 📧 Email: [maintainer@example.com](mailto:maintainer@example.com)
+- 💬 Discussions: [@维护者](../../discussions)
+
+---
+
+## 📚 相关资源
+
+### 学习资源
+
+- [OPA官方文档](https://www.openpolicyagent.org/docs/latest/)
+- [Rego Playground](https://play.openpolicyagent.org/)
+- [OPA GitHub](https://github.com/open-policy-agent/opa)
+
+### 开发工具
+
+- [VSCode OPA插件](https://marketplace.visualstudio.com/items?itemName=tsandall.opa)
+- [IntelliJ OPA插件](https://plugins.jetbrains.com/plugin/16645-open-policy-agent)
+
+---
+
+## 📜 许可证
+
+本项目采用 [Apache 2.0](LICENSE) 许可证。
+
+贡献代码即表示您同意将您的贡献纳入此许可证。
 
 ---
 
 ## 🙏 致谢
 
-感谢所有为本项目做出贡献的人！
+感谢您考虑为OPA技术文档项目做出贡献！
 
-您的每一次贡献都让这个文档体系变得更好 🎉
+每一个贡献，无论大小，都让项目变得更好。
+
+**🎉 让我们一起推动Policy-as-Code技术在中文社区的发展！**
 
 ---
 
-**最后更新**: 2025年10月21日  
-**维护者**: OPA技术文档团队
+**最后更新**: 2025-10-25  
+**版本**: v1.0  
+**维护者**: OPA中文文档团队

@@ -1,0 +1,15 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📚 在线文档
+    url: https://adamartin18010.github.io/OPA/
+    about: 访问完整的在线文档站点
+  - name: 💬 GitHub Discussions
+    url: https://github.com/AdaMartin18010/OPA/discussions
+    about: 参与社区讨论，分享经验和想法
+  - name: 🐛 OPA官方Issue
+    url: https://github.com/open-policy-agent/opa/issues
+    about: 报告OPA核心引擎的bug（非文档问题）
+  - name: 📖 OPA官方文档
+    url: https://www.openpolicyagent.org/docs/latest/
+    about: 访问OPA官方英文文档
+

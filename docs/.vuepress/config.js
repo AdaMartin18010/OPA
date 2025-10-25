@@ -20,7 +20,9 @@ module.exports = {
           { text: 'Hello World', link: '/examples/01-hello-world/' },
           { text: 'RBAC权限', link: '/examples/02-basic-rbac/' },
           { text: 'K8s准入', link: '/examples/03-kubernetes-admission/' },
-          { text: '性能优化', link: '/examples/04-performance-optimization/' }
+          { text: '性能优化', link: '/examples/04-performance-optimization/' },
+          { text: 'Envoy集成', link: '/examples/05-envoy-authz/' },
+          { text: '数据过滤', link: '/examples/06-data-filtering/' }
         ]
       },
       { text: 'GitHub', link: 'https://github.com/AdaMartin18010/OPA' }
@@ -142,7 +144,9 @@ module.exports = {
             '01-hello-world/',
             '02-basic-rbac/',
             '03-kubernetes-admission/',
-            '04-performance-optimization/'
+            '04-performance-optimization/',
+            '05-envoy-authz/',
+            '06-data-filtering/'
           ]
         }
       ]
@@ -205,6 +209,42 @@ module.exports = {
         color: '#3eaf7c',
         successText: '已复制'
       }
+    ],
+    // SEO插件
+    [
+      'seo',
+      {
+        siteTitle: (_, $site) => $site.title,
+        title: $page => $page.title,
+        description: $page => $page.frontmatter.description || '全面深入的OPA技术文档',
+        author: (_, $site) => $site.themeConfig.author || 'OPA技术文档项目',
+        tags: $page => $page.frontmatter.tags || ['OPA', 'Rego', 'Policy as Code'],
+        twitterCard: _ => 'summary_large_image',
+        type: $page => 'article',
+        url: (_, $site, path) => ($site.themeConfig.domain || '') + path,
+        image: ($page, $site) => $page.frontmatter.image || ($site.themeConfig.domain || '') + '/og-image.png',
+        publishedAt: $page => $page.frontmatter.date && new Date($page.frontmatter.date),
+        modifiedAt: $page => $page.lastUpdated && new Date($page.lastUpdated)
+      }
+    ],
+    // 站点地图
+    [
+      'sitemap',
+      {
+        hostname: 'https://adamartin18010.github.io/OPA/',
+        exclude: ['/404.html'],
+        dateFormatter: time => {
+          return new Date(time).toISOString()
+        }
+      }
+    ],
+    // 自动生成侧边栏
+    [
+      'vuepress-plugin-auto-sidebar',
+      {
+        titleMode: 'titlecase',
+        collapsable: true
+      }
     ]
   ],
   
@@ -215,8 +255,32 @@ module.exports = {
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }],
     ['meta', { name: 'author', content: 'OPA技术文档项目' }],
-    ['meta', { name: 'keywords', content: 'OPA,Open Policy Agent,Rego,策略引擎,RBAC,Kubernetes,技术文档' }],
-    ['meta', { name: 'viewport', content: 'width=device-width,initial-scale=1,user-scalable=no' }]
+    ['meta', { name: 'keywords', content: 'OPA,Open Policy Agent,Rego,策略引擎,RBAC,Kubernetes,技术文档,Policy as Code,云原生,Gatekeeper' }],
+    ['meta', { name: 'viewport', content: 'width=device-width,initial-scale=1,user-scalable=no' }],
+    // SEO优化
+    ['meta', { name: 'description', content: 'OPA(Open Policy Agent)全面技术文档：涵盖Rego语法、Kubernetes集成、RBAC授权、性能优化等，包含155+测试用例的6个完整代码示例' }],
+    ['meta', { property: 'og:title', content: 'OPA技术文档 - Open Policy Agent全面指南' }],
+    ['meta', { property: 'og:description', content: '中文社区最全面的OPA技术文档，35万字深度内容，6个完整示例，生产就绪' }],
+    ['meta', { property: 'og:type', content: 'website' }],
+    ['meta', { property: 'og:url', content: 'https://adamartin18010.github.io/OPA/' }],
+    ['meta', { property: 'og:locale', content: 'zh_CN' }],
+    ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+    ['meta', { name: 'twitter:title', content: 'OPA技术文档 - 全面实践指南' }],
+    ['meta', { name: 'twitter:description', content: '涵盖理论、架构、实践的完整OPA文档体系' }],
+    // 语言标记
+    ['meta', { httpEquiv: 'content-language', content: 'zh-CN' }],
+    ['link', { rel: 'alternate', hreflang: 'zh-CN', href: 'https://adamartin18010.github.io/OPA/' }],
+    // Google Analytics 4
+    ['script', { async: true, src: 'https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX' }],
+    ['script', {}, `
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX', {
+        'send_page_view': true,
+        'cookie_flags': 'SameSite=None;Secure'
+      });
+    `]
   ]
 };
 

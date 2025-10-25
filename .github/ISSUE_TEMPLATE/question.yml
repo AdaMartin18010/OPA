@@ -1,0 +1,80 @@
+name: ❓ 问题咨询
+description: 询问关于OPA或文档的问题
+title: "[Question] "
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        有问题？我们很乐意帮助！建议先查看[FAQ](../docs/FAQ.md)和[学习路径](../docs/LEARNING_PATH.md)。
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: 问题分类
+      description: 您的问题属于哪个类别？
+      options:
+        - OPA基础概念
+        - Rego语法问题
+        - Kubernetes集成
+        - 性能优化
+        - 部署配置
+        - 代码示例
+        - 生产实践
+        - 其他
+    validations:
+      required: true
+
+  - type: textarea
+    id: question
+    attributes:
+      label: 问题描述
+      description: 请详细描述您的问题
+      placeholder: 我想了解...
+    validations:
+      required: true
+
+  - type: textarea
+    id: tried
+    attributes:
+      label: 已尝试的方法
+      description: 您已经尝试过什么？
+      placeholder: |
+        - 阅读了XX文档
+        - 尝试了XX方法
+        - 搜索了XX关键词
+    validations:
+      required: false
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期望结果
+      description: 您希望达到什么目标？
+      placeholder: 我希望能够...
+    validations:
+      required: false
+
+  - type: textarea
+    id: context
+    attributes:
+      label: 背景信息
+      description: 提供相关的背景信息
+      placeholder: |
+        使用场景、技术栈、版本信息等...
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: 检查清单
+      description: 提交前请确认
+      options:
+        - label: 我已查看FAQ文档
+          required: true
+        - label: 我已搜索现有Issue
+          required: true
+        - label: 这不是bug报告（如果是bug，请使用Bug报告模板）
+          required: true
+

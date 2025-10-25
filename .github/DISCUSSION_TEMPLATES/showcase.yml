@@ -1,0 +1,28 @@
+labels: ["showcase", "案例分享"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        🌟 展示您使用OPA的项目或案例！
+
+  - type: textarea
+    attributes:
+      label: 项目介绍
+      description: 简要介绍您的项目
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: OPA使用场景
+      description: 在项目中如何使用OPA？
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: 经验分享
+      description: 有什么经验或教训想分享？
+    validations:
+      required: false
+

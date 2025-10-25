@@ -1,0 +1,114 @@
+name: 🐛 Bug报告
+description: 报告文档错误、代码bug或其他问题
+title: "[Bug] "
+labels: ["bug", "待分类"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢您报告问题！请填写以下信息帮助我们更好地理解和修复问题。
+
+  - type: dropdown
+    id: bug-type
+    attributes:
+      label: 问题类型
+      description: 这是什么类型的问题？
+      options:
+        - 文档错误（拼写、格式、内容）
+        - 代码示例错误
+        - 配置问题
+        - 部署问题
+        - 性能问题
+        - 其他
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: 问题描述
+      description: 请清晰地描述您遇到的问题
+      placeholder: 详细描述问题现象...
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: 重现步骤
+      description: 如何重现这个问题？
+      placeholder: |
+        1. 打开文档 '...'
+        2. 滚动到 '...'
+        3. 运行命令 '...'
+        4. 看到错误 '...'
+    validations:
+      required: false
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期望行为
+      description: 您期望应该发生什么？
+      placeholder: 描述预期的正确行为...
+    validations:
+      required: false
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: 实际行为
+      description: 实际发生了什么？
+      placeholder: 描述实际的错误行为...
+    validations:
+      required: false
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: 环境信息
+      description: 请提供相关的环境信息
+      placeholder: |
+        - OS: [例如 Windows 11, macOS 14, Ubuntu 22.04]
+        - OPA版本: [例如 v0.68.0]
+        - 浏览器: [例如 Chrome 120]
+        - 文档版本: [例如 v2.4.1]
+      value: |
+        - OS: 
+        - OPA版本: 
+        - 浏览器: 
+        - 文档版本: 
+    validations:
+      required: false
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: 截图或日志
+      description: 如果可能，请提供截图或错误日志
+      placeholder: 粘贴截图或日志...
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: 补充信息
+      description: 其他任何相关信息
+      placeholder: 任何其他有助于理解问题的信息...
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: 检查清单
+      description: 提交前请确认
+      options:
+        - label: 我已搜索现有Issue，确认这不是重复问题
+          required: true
+        - label: 我已阅读相关文档
+          required: false
+        - label: 我愿意提交PR修复此问题
+          required: false
+

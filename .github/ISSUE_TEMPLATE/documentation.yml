@@ -1,0 +1,85 @@
+name: 📖 文档改进
+description: 报告文档不清晰或建议改进
+title: "[Docs] "
+labels: ["documentation", "待分类"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢您帮助改进文档！请提供详细信息。
+
+  - type: input
+    id: page
+    attributes:
+      label: 相关页面
+      description: 涉及哪个文档页面？
+      placeholder: 例如：docs/02-语言模型/02.1-Rego语法规范.md
+    validations:
+      required: true
+
+  - type: dropdown
+    id: issue-type
+    attributes:
+      label: 问题类型
+      description: 这是什么类型的文档问题？
+      options:
+        - 内容错误
+        - 拼写/语法错误
+        - 信息过时
+        - 内容不清晰
+        - 缺少示例
+        - 格式问题
+        - 链接失效
+        - 其他
+    validations:
+      required: true
+
+  - type: textarea
+    id: current
+    attributes:
+      label: 当前内容
+      description: 当前文档是怎么写的？（可选）
+      placeholder: 复制当前文档的相关部分...
+    validations:
+      required: false
+
+  - type: textarea
+    id: suggested
+    attributes:
+      label: 建议改进
+      description: 您建议如何改进？
+      placeholder: 详细描述您的改进建议...
+    validations:
+      required: true
+
+  - type: textarea
+    id: reason
+    attributes:
+      label: 改进理由
+      description: 为什么需要这个改进？
+      placeholder: 说明改进的必要性和好处...
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: 补充信息
+      description: 其他任何相关信息
+      placeholder: 任何其他有助于改进文档的信息...
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: 检查清单
+      description: 提交前请确认
+      options:
+        - label: 我已确认这是文档问题，不是代码bug
+          required: true
+        - label: 我已检查最新版本文档
+          required: true
+        - label: 我愿意提交PR改进文档
+          required: false
+
