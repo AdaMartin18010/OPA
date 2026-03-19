@@ -10,6 +10,7 @@
 - [行为准则](#行为准则)
 - [如何贡献](#如何贡献)
 - [贡献类型](#贡献类型)
+- [安全贡献](#安全贡献)
 - [开发流程](#开发流程)
 - [代码规范](#代码规范)
 - [文档规范](#文档规范)
@@ -147,6 +148,55 @@ examples/07-new-example/
 
 ---
 
+## 🔒 安全贡献
+
+### 报告安全漏洞
+
+如果您发现了安全漏洞，请**不要**通过公共Issue报告。请按照以下流程进行：
+
+#### CVE报告流程
+
+1. **私密报告**
+   - 📧 发送邮件至 [security@example.com](mailto:security@example.com)
+   - 🔐 使用 [PGP公钥](../security/pubkey.asc) 加密敏感信息
+   - 📝 包含漏洞的详细描述和复现步骤
+
+2. **报告内容要求**
+
+   ```markdown
+   主题: [SECURITY] 漏洞简要描述
+
+   - 漏洞类型: (如: 代码注入、信息泄露等)
+   - 影响版本: (如: OPA v1.3.0 及以下)
+   - 严重程度: (低/中/高/严重)
+   - 漏洞描述: 详细说明问题
+   - 复现步骤: 如何触发该漏洞
+   - 修复建议: (可选) 建议的修复方案
+   - 您的联系方式: 用于后续沟通
+   ```
+
+3. **响应流程**
+
+   | 阶段 | 时间 | 说明 |
+   |------|------|------|
+   | 确认收到 | 24小时内 | 收到报告后回复确认 |
+   | 初步评估 | 3个工作日内 | 评估漏洞严重性和影响 |
+   | 修复开发 | 根据严重性 | 开发修复补丁 |
+   | 公开披露 | 修复后 | 协调发布安全公告 |
+
+4. **披露政策**
+   - 我们会在修复完成后协调公开披露
+   - 通常在修复版本发布后90天内完全公开
+   - 严重漏洞可能会缩短披露时间线
+
+### 安全贡献奖励
+
+- 🏆 安全研究员荣誉榜
+- 🎁 项目贡献者纪念品
+- 📜 贡献者证书
+
+---
+
 ## 🚀 开发流程
 
 ### 准备环境
@@ -178,19 +228,32 @@ npm run docs:dev
 # 在浏览器中访问 http://localhost:8080
 ```
 
-### 测试代码示例
+### 开发环境要求
+
+- **OPA**: v1.4+ (必需)
+- **Node.js**: v18+ (用于文档构建)
+- **Git**: v2.30+
+
+### 安装OPA v1.4+
 
 ```bash
-# 安装OPA（如果还没有）
 # macOS
 brew install opa
 
 # Linux
-curl -L -o opa https://openpolicyagent.org/downloads/latest/opa_linux_amd64_static
+curl -L -o opa https://openpolicyagent.org/downloads/v1.4.0/opa_linux_amd64_static
 chmod +x opa
 sudo mv opa /usr/local/bin/
 
-# 运行测试
+# 验证版本
+opa version
+# 应显示: Version: 1.4.0+ (或更高版本)
+```
+
+### 测试代码示例
+
+```bash
+# 确保使用OPA v1.4+ 测试
 opa test examples/01-hello-world/ -v
 opa test examples/02-basic-rbac/ -v
 # ...测试所有示例
@@ -237,9 +300,12 @@ user_has_permission if {
 
 # ❌ 避免的做法
 # 1. 不要使用Rego v0语法
-allow = true {  # 旧语法
+allow {  # 旧语法 - 缺少 import rego.v1
     input.user == "admin"
 }
+
+# 2. 不要忘记导入 rego.v1
+package example  # 缺少 import rego.v1
 
 # 2. 避免单字母变量
 allow if {
@@ -369,7 +435,7 @@ allow if {
 # 文档标题
 
 > **简介**: 一句话描述本文档内容  
-> **适用版本**: OPA v0.68+  
+> **适用版本**: OPA v1.4+  
 > **难度等级**: ⭐⭐⭐ 中级  
 > **预计阅读时间**: 30分钟
 
@@ -665,6 +731,6 @@ Closes #123
 
 ---
 
-**最后更新**: 2025-10-25  
-**版本**: v1.0  
+**最后更新**: 2026-03-19  
+**版本**: v2.6.0  
 **维护者**: OPA中文文档团队

@@ -93,7 +93,13 @@ module.exports = {
           collapsable: true,
           children: [
             '06-形式化证明/06.1-Datalog理论基础',
-            '06-形式化证明/06.2-Rego形式化语义'
+            '06-形式化证明/06.2-Rego形式化语义',
+            '06-形式化证明/06.3-命题逻辑与一阶逻辑基础',
+            '06-形式化证明/06.4-求值算法正确性证明',
+            '06-形式化证明/06.5-类型系统形式化',
+            '06-形式化证明/06.6-部分求值理论',
+            '06-形式化证明/06.7-抽象解释理论',
+            '06-形式化证明/06.8-并发语义与正确性'
           ]
         },
         {
@@ -121,6 +127,45 @@ module.exports = {
           ]
         },
         {
+          title: '🔍 源码分析',
+          collapsable: true,
+          children: [
+            '10-源码分析/10.1-OPA架构总览与代码结构',
+            '10-源码分析/10.2-词法器与语法解析器实现',
+            '10-源码分析/10.3-AST构建与转换',
+            '10-源码分析/10.4-编译器实现详解',
+            '10-源码分析/10.5-Top-Down求值器源码',
+            '10-源码分析/10.6-内置函数实现机制',
+            '10-源码分析/10.7-索引系统实现',
+            '10-源码分析/10.8-部分求值引擎',
+            '10-源码分析/10.9-Bundle管理实现',
+            '10-源码分析/10.10-决策日志系统'
+          ]
+        },
+        {
+          title: '🧮 算法深度',
+          collapsable: true,
+          children: [
+            '11-算法深度/11.1-SLD-Resolution详解',
+            '11-算法深度/11.2-Robinson统一算法',
+            '11-算法深度/11.3-索引数据结构',
+            '11-算法深度/11.4-查询优化算法',
+            '11-算法深度/11.5-并发控制机制'
+          ]
+        },
+        {
+          title: '📚 理论实践',
+          collapsable: true,
+          children: [
+            '12-理论实践/12.1-类型安全策略开发',
+            '12-理论实践/12.2-性能剖析实战',
+            '12-理论实践/12.3-大规模部署架构',
+            '12-理论实践/12.4-安全加固实践',
+            '12-理论实践/12.5-CI_CD最佳实践',
+            '12-理论实践/12.6-CVE-2025-46569安全通告'
+          ]
+        },
+        {
           title: '🎯 工具与资源',
           collapsable: true,
           children: [
@@ -130,7 +175,40 @@ module.exports = {
             'GLOSSARY',
             'VERSION_COMPATIBILITY',
             'PRODUCTION_CASES',
-            'CHECKLIST'
+            'CHECKLIST',
+            'CHANGELOG',
+            'CONTRIBUTING',
+            'CONTRIBUTORS',
+            'DEPLOYMENT',
+            'DEPLOYMENT_PROGRESS',
+            'DEPLOYMENT_STATUS',
+            'FINAL_DEPLOYMENT_GUIDE',
+            'IMPROVEMENT_PLAN',
+            'OPTIMIZATION_SUMMARY',
+            'PHASE1_COMPLETION_REPORT',
+            'PHASE3_COMPLETION_REPORT',
+            'PHASE4_COMPLETION_REPORT',
+            'PROGRESS_REPORT_2025-10-21',
+            'PROGRESS_UPDATE_2025-10-21-P2',
+            'PROGRESS_UPDATE_2025-10-21-P3',
+            'PROGRESS_UPDATE_2025-10-25',
+            'PROJECT_ACHIEVEMENT',
+            'PROJECT_COMPLETE',
+            'PROJECT_COMPLETION_REPORT',
+            'PROJECT_COMPLETION_SUMMARY',
+            'PROJECT_DASHBOARD',
+            'PROJECT_FINAL_STATUS',
+            'PROJECT_FINAL_SUMMARY',
+            'PROJECT_INDEX',
+            'PROJECT_REVIEW',
+            'PROJECT_STATUS',
+            'PROJECT_SUCCESS',
+            'PROJECT_SUMMARY',
+            'RELEASE_v2.4',
+            'ROADMAP',
+            'V2.5.0_RELEASE_NOTES',
+            'V2.5.0_SUMMARY',
+            'V2.6.0_RELEASE_NOTES'
           ]
         }
       ],
@@ -216,7 +294,7 @@ module.exports = {
       {
         siteTitle: (_, $site) => $site.title,
         title: $page => $page.title,
-        description: $page => $page.frontmatter.description || '全面深入的OPA技术文档',
+        description: $page => $page.frontmatter.description || '全面深入的OPA技术文档 v2.6.0',
         author: (_, $site) => $site.themeConfig.author || 'OPA技术文档项目',
         tags: $page => $page.frontmatter.tags || ['OPA', 'Rego', 'Policy as Code'],
         twitterCard: _ => 'summary_large_image',
@@ -255,21 +333,24 @@ module.exports = {
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }],
     ['meta', { name: 'author', content: 'OPA技术文档项目' }],
-    ['meta', { name: 'keywords', content: 'OPA,Open Policy Agent,Rego,策略引擎,RBAC,Kubernetes,技术文档,Policy as Code,云原生,Gatekeeper' }],
+    ['meta', { name: 'keywords', content: 'OPA,Open Policy Agent,Rego,策略引擎,RBAC,Kubernetes,技术文档,Policy as Code,云原生,Gatekeeper,v2.6.0' }],
     ['meta', { name: 'viewport', content: 'width=device-width,initial-scale=1,user-scalable=no' }],
     // SEO优化
-    ['meta', { name: 'description', content: 'OPA(Open Policy Agent)全面技术文档：涵盖Rego语法、Kubernetes集成、RBAC授权、性能优化等，包含155+测试用例的6个完整代码示例' }],
-    ['meta', { property: 'og:title', content: 'OPA技术文档 - Open Policy Agent全面指南' }],
-    ['meta', { property: 'og:description', content: '中文社区最全面的OPA技术文档，35万字深度内容，6个完整示例，生产就绪' }],
+    ['meta', { name: 'description', content: 'OPA(Open Policy Agent)全面技术文档 v2.6.0：涵盖Rego语法、Kubernetes集成、RBAC授权、性能优化、源码分析、算法深度等，包含形式化证明与生产实战案例' }],
+    ['meta', { property: 'og:title', content: 'OPA技术文档 v2.6.0 - Open Policy Agent全面指南' }],
+    ['meta', { property: 'og:description', content: '中文社区最全面的OPA技术文档，40万字深度内容，10+源码分析，算法深度解析，形式化证明，生产就绪' }],
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:url', content: 'https://adamartin18010.github.io/OPA/' }],
     ['meta', { property: 'og:locale', content: 'zh_CN' }],
+    ['meta', { property: 'og:version', content: 'v2.6.0' }],
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
-    ['meta', { name: 'twitter:title', content: 'OPA技术文档 - 全面实践指南' }],
-    ['meta', { name: 'twitter:description', content: '涵盖理论、架构、实践的完整OPA文档体系' }],
+    ['meta', { name: 'twitter:title', content: 'OPA技术文档 v2.6.0 - 全面实践指南' }],
+    ['meta', { name: 'twitter:description', content: '涵盖理论、架构、源码、算法、实践的完整OPA文档体系' }],
     // 语言标记
     ['meta', { httpEquiv: 'content-language', content: 'zh-CN' }],
     ['link', { rel: 'alternate', hreflang: 'zh-CN', href: 'https://adamartin18010.github.io/OPA/' }],
+    // 版本信息
+    ['meta', { name: 'version', content: 'v2.6.0' }],
     // Google Analytics 4
     ['script', { async: true, src: 'https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX' }],
     ['script', {}, `
@@ -283,5 +364,3 @@ module.exports = {
     `]
   ]
 };
-
-

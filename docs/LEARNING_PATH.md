@@ -1,7 +1,8 @@
 # OPA 学习路线图（Learning Path）
 
 > **个性化学习指南** - 根据你的背景和目标选择最佳路径  
-> **更新日期**: 2025年10月21日  
+> **更新日期**: 2026-03-19
+> **版本**: v2.6.0 / OPA v1.4+  
 > **预计时间**: 1周至2个月
 
 ---
@@ -41,7 +42,7 @@
 ```rego
 package hello
 
-import future.keywords.if
+import rego.v1
 
 greeting := msg if {
     msg := sprintf("Hello, %s!", [input.name])
@@ -251,8 +252,10 @@ spec:
     - target: admission.k8s.gatekeeper.sh
       rego: |
         package k8srequiredlabels
-        
-        violation[{"msg": msg}] {
+
+        import rego.v1
+
+        violation contains {"msg": msg} if {
           provided := {label | input.review.object.metadata.labels[label]}
           required := {label | label := input.parameters.labels[_]}
           missing := required - provided
@@ -487,6 +490,10 @@ spec:
   ```
 - ☸️ Kubernetes环境: [Kind](https://kind.sigs.k8s.io/) 或 Minikube
 
+### 安全公告
+
+- 🔒 [CVE-2025-46569](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2025-46569) - OPA安全漏洞修复指南
+
 ---
 
 ## 🎯 学习检查清单
@@ -585,5 +592,5 @@ spec:
 
 **祝你学习愉快！** 🚀
 
-**更新**: 2025年10月21日 | **版本**: v2.1
+**更新**: 2026-03-19 | **版本**: v2.6.0 / OPA v1.4+
 

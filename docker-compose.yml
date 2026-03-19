@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  # OPA文档站点
+  docs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # OPA服务 (用于测试)
+  opa:
+    image: openpolicyagent/opa:1.4.0
+    ports:
+      - "8181:8181"
+    command:
+      - "run"
+      - "--server"
+      - "--addr=:8181"
+      - "--log-level=debug"
+    volumes:
+      - ./examples:/policies:ro
+    restart: unless-stopped
+
+  # 开发环境
+  dev:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.dev
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/docs/node_modules
+    working_dir: /app/docs
+    command: npm run dev
+    environment:
+      - NODE_ENV=development
