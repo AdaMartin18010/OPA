@@ -5,8 +5,8 @@ Open Policy Agent - 全面技术分析与文档体系
 <div align="center">
 
 ![Status](https://img.shields.io/badge/status-生产就绪-success)
-![Version](https://img.shields.io/badge/version-v2.5.0-blue)
-![Docs](https://img.shields.io/badge/docs-73篇-brightgreen)
+![Version](https://img.shields.io/badge/version-v2.6.0-blue)
+![Docs](https://img.shields.io/badge/docs-74篇-brightgreen)
 ![Words](https://img.shields.io/badge/字数-36万+-orange)
 ![Examples](https://img.shields.io/badge/examples-6个-green)
 ![Tests](https://img.shields.io/badge/tests-155+-success)
@@ -16,9 +16,9 @@ Open Policy Agent - 全面技术分析与文档体系
 
 </div>
 
-> **项目状态**: ✅ 持续优化 + 🌍 国际化迈进 + 🔍 SEO增强  
-> **文档版本**: v2.5.0 (SEO优化 + 反馈系统 + 贡献指南)  
-> **最后更新**: 2025年10月25日
+> **项目状态**: ✅ 安全更新 + 📚 OPA v1.4+兼容 + 🔒 CVE修复  
+> **文档版本**: v2.6.0 (OPA v1.4+ 兼容 + CVE-2025-46569 安全修复)  
+> **最后更新**: 2026年3月19日
 
 ---
 
@@ -28,11 +28,11 @@ Open Policy Agent - 全面技术分析与文档体系
 
 ### 文档特点
 
-- ✅ **全面性**: 覆盖OPA所有核心技术领域（360,000+字，73篇文档）
+- ✅ **全面性**: 覆盖OPA所有核心技术领域（360,000+字，74篇文档）
 - ✅ **形式化**: 包含数学模型、语义定义、正确性证明
 - ✅ **实践性**: 提供可运行代码示例和生产实战案例（6个完整示例，155+测试）
 - ✅ **系统化**: 递归式展开概念关系网络（80+核心概念）
-- ✅ **时效性**: 对齐2025年10月最新技术规范（OPA v0.68+ / Rego v1.0）
+- ✅ **时效性**: 对齐2026年3月最新技术规范（OPA v1.4+ / Rego v1.0）
 - ✅ **可验证**: 所有示例代码经CI自动化测试（155+测试用例）
 - ✅ **生产就绪**: 包含5个真实生产案例（电商、金融、SaaS等）
 - ✅ **完整工具链**: 快速参考、FAQ、学习路线、术语表（60+术语）
@@ -40,7 +40,7 @@ Open Policy Agent - 全面技术分析与文档体系
 - 🌍 **国际化**: 10个核心文档提供英文摘要，便于国际用户快速了解
 - 🔍 **SEO优化**: Google Analytics 4、Open Graph、Twitter Card、站点地图
 - 💬 **社区友好**: 完整Issue模板、Discussion区、贡献指南和荣誉系统
-- 🎊 **持续进化**: 基于ROADMAP持续优化，项目达到v2.5.0版本
+- 🎊 **持续进化**: 基于ROADMAP持续优化，项目达到v2.6.0版本
 
 ---
 

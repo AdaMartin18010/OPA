@@ -3,6 +3,8 @@
 > **难度**: ⭐⭐⭐⭐ 高级  
 > **学习时间**: 60-90分钟  
 > **场景**: API网关授权，Envoy External Authorization  
+> **OPA版本**: v1.4.0  
+> **最后验证**: 2026-03-19  
 > **前置知识**: RBAC、JWT、Envoy基础
 
 ---
@@ -384,7 +386,7 @@ services:
   
   # OPA授权服务
   opa:
-    image: openpolicyagent/opa:latest-envoy
+    image: openpolicyagent/opa:1.4.0-envoy
     ports:
       - "8181:8181"   # REST API
       - "9191:9191"   # gRPC

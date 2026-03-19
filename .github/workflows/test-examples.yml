@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        opa-version: ['0.68.0', '0.60.0', '0.55.0']
+        opa-version: ['1.4.0', '1.0.0', '0.68.0']
       fail-fast: false
 
     steps:
@@ -156,11 +156,16 @@ jobs:
           ## Compatibility Matrix
           
           Tested with OPA versions:
-          - ✅ v0.68.0 (Latest)
-          - ✅ v0.60.0
-          - ✅ v0.55.0 (Minimum)
+          - ✅ v1.4.0 (Latest, CVE-2025-46569修复)
+          - ✅ v1.0.0
+          - ✅ v0.68.0 (Legacy)
           
           All tests use **Rego v1.0** syntax.
+          
+          ## Security Notice
+          
+          ⚠️ OPA versions prior to v1.4.0 are affected by [CVE-2025-46569](https://github.com/open-policy-agent/opa/security/advisories/GHSA-6m8w-jc87-6cr7).
+          Please upgrade to v1.4.0+ immediately.
           EOF
 
       - name: Comment on PR

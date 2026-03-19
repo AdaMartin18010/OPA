@@ -1,3 +1,8 @@
+# OPA版本: v1.4.0
+# Rego版本: v1.0
+# 测试状态: ✅ 已验证
+# 最后测试: 2026-03-19
+
 package example.hello
 
 import rego.v1

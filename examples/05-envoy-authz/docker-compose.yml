@@ -24,7 +24,7 @@ services:
   # OPA - 授权决策引擎
   # ────────────────────────────────────────────────────────────────
   opa:
-    image: openpolicyagent/opa:latest-envoy
+    image: openpolicyagent/opa:1.4.0-envoy
     container_name: opa-authz-service
     ports:
       - "8181:8181"   # REST API端口

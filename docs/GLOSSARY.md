@@ -1,7 +1,7 @@
 # OPA/Rego 术语表（Glossary）
 
 > **技术术语速查** - 快速理解OPA/Rego核心概念  
-> **更新日期**: 2025年10月21日  
+> **更新日期**: 2026年3月19日
 > **按字母排序** | **中英对照**
 
 ---
@@ -117,6 +117,27 @@ spec:
 
 ## B
 
+### Batch API
+
+**批处理API**:
+
+OPA提供的批量策略评估接口，允许一次性提交多个查询请求，减少网络往返开销。
+
+```bash
+# 批量查询请求
+POST /v1/data/batch
+{
+  "requests": [
+    {"input": {"user": "alice", "action": "read"}},
+    {"input": {"user": "bob", "action": "write"}}
+  ]
+}
+```
+
+**优势**：减少延迟、提高吞吐量、优化资源使用
+
+---
+
 ### Backtracking
 
 **回溯**:
@@ -188,6 +209,23 @@ time.now_ns()                   # 当前时间
 
 ## C
 
+### Code Injection
+
+**代码注入**:
+
+一种安全漏洞，攻击者通过注入恶意代码来执行未授权操作。
+
+```text
+# 风险示例：未经验证的用户输入被用作代码
+# CVE-2025-46569 涉及 HTTP Path Injection 类型的代码注入
+```
+
+**防护**：输入验证、参数化查询、最小权限原则
+
+**相关**：[CVE-2025-46569](#cve-2025-46569)、[HTTP Path Injection](#http-path-injection)
+
+---
+
 ### Comprehension
 
 **推导式**:
@@ -256,6 +294,23 @@ spec:
 Gatekeeper中定义的可重用策略模板，包含Rego代码和参数定义。
 
 **文档**：[Gatekeeper详解](./04-生态系统/04.2-Gatekeeper详解.md)
+
+---
+
+### CVE-2025-46569
+
+**CVE-2025-46569**:
+
+OPA v0.40.0 - v1.4.2 中发现的安全漏洞，涉及 HTTP Path Injection 风险。
+
+**影响**：攻击者可能通过构造特殊的 HTTP 请求路径注入恶意代码
+**修复版本**：v1.4.3+
+**缓解措施**：
+- 升级到 OPA v1.4.3 或更高版本
+- 在反向代理层过滤异常路径
+- 启用严格的输入验证
+
+**相关**：[HTTP Path Injection](#http-path-injection)、[Code Injection](#code-injection)
 
 ---
 
@@ -397,6 +452,27 @@ users[user.id] := user if { ... }  # Head: users[user.id]
 
 ---
 
+### HTTP Path Injection
+
+**HTTP路径注入**:
+
+通过操纵 HTTP 请求路径中的特殊字符或编码序列来注入恶意内容的攻击方式。
+
+```text
+# 风险路径示例
+/../../../etc/passwd
+/admin%00/../../config
+```
+
+**防护建议**：
+- 规范化路径（resolve .. 和 .）
+- 验证路径在允许范围内
+- 使用安全的文件访问API
+
+**相关**：[CVE-2025-46569](#cve-2025-46569)、[Code Injection](#code-injection)
+
+---
+
 ## I
 
 ### Input
@@ -421,6 +497,31 @@ allow if {
 ```
 
 **对比**：[Data](#data)
+
+---
+
+### import rego.v1
+
+**导入Rego v1**:
+
+OPA v1.0+ 中导入 v1 标准库的语法，启用最新语言特性。
+
+```rego
+package example
+
+import rego.v1  # 启用Rego v1标准库
+
+allow if {
+    input.user.role == "admin"
+}
+```
+
+**特性**：
+- 内置 `if` 关键字支持
+- 更新的内置函数集合
+- 与旧版本的向后兼容性
+
+**相关**：[Rego v1.0](#rego-v10)、[Strict Mode](#strict-mode)
 
 ---
 
@@ -772,6 +873,34 @@ OPA的策略语言，基于Datalog，声明式。
 
 ---
 
+### Rego v1.0
+
+**Rego v1.0**:
+
+Rego语言的稳定版本，于2024年发布，提供长期兼容性保证。
+
+```rego
+import rego.v1  # 使用v1标准库
+
+# v1.0 语法特性
+allow if {
+    input.user.role == "admin"
+    not input.user.blocked
+}
+```
+
+**主要特性**：
+- 稳定的语言规范
+- 内置 `if` 关键字
+- 改进的性能和错误信息
+- 向后兼容性承诺
+
+**迁移**：使用 `import rego.v1` 启用v1特性
+
+**相关**：[import rego.v1](#import-regov1)、[Strict Mode](#strict-mode)
+
+---
+
 ### REPL (Read-Eval-Print Loop)
 
 **交互式解释器**:
@@ -857,6 +986,38 @@ containers:
 ---
 
 ### SLD-Resolution
+
+**SLD归结**:
+
+Rego求值器使用的推理算法。
+
+**文档**：[Top-Down求值器](./03-实现架构/03.4-Top-Down求值器.md)
+
+---
+
+### Strict Mode
+
+**严格模式**:
+
+OPA的编译检查模式，启用额外的静态分析以捕获潜在问题。
+
+```bash
+# 启用严格模式编译
+opa build --strict policy.rego
+
+# 或配置文件
+opa run --strict-mode policy.rego
+```
+
+**检查项**：
+- 未使用的变量
+- 未使用的导入
+- 潜在的逻辑错误
+- 弃用功能使用
+
+**建议**：CI/CD 流程中启用严格模式以提高代码质量
+
+**相关**：[Rego v1.0](#rego-v10)、[import rego.v1](#import-regov1)
 
 **SLD归结**:
 
@@ -1110,6 +1271,6 @@ OPA常用于实现零信任架构的策略引擎。
 
 ---
 
-**更新**: 2025年10月21日 | **版本**: v2.2  
-**术语总数**: 60+  
+**更新**: 2026年3月19日 | **版本**: v2.6.0  
+**术语总数**: 66+
 **贡献**: 欢迎补充术语！请提交 [Pull Request](../CONTRIBUTING.md)

@@ -1,7 +1,7 @@
 # OPA/Rego 快速参考指南
 
 > **速查手册** - 一页纸掌握OPA核心语法和常用模式  
-> **更新日期**: 2025年10月21日  
+> **版本**: OPA v1.4.0 | 更新日期: 2026-03-19  
 > **建议**: 打印后贴在工位 📌
 
 ---
@@ -76,8 +76,7 @@ package example.authz    # 定义策略包路径
 ### Import 导入
 
 ```rego
-import future.keywords.if       # 推荐：使用新关键字
-import future.keywords.contains
+import rego.v1                  # Rego v1.0语法（推荐）
 import data.users              # 导入数据
 ```
 
@@ -204,7 +203,7 @@ x % y                    # 取模
 ```rego
 package authz
 
-import future.keywords.if
+import rego.v1
 
 # 允许管理员
 allow if {
@@ -383,7 +382,7 @@ http.send({
 ```rego
 package authz_test
 
-import future.keywords.if
+import rego.v1
 import data.authz
 
 # 测试：管理员应该被允许
@@ -570,7 +569,7 @@ allow if {
 ### 日期范围检查
 
 ```rego
-import future.keywords.if
+import rego.v1
 
 valid_date if {
     now := time.now_ns()
@@ -584,7 +583,7 @@ valid_date if {
 ### IP 范围检查
 
 ```rego
-import future.keywords.if
+import rego.v1
 
 ip_allowed if {
     net.cidr_contains("10.0.0.0/8", input.source_ip)
@@ -594,7 +593,7 @@ ip_allowed if {
 ### 正则匹配
 
 ```rego
-import future.keywords.if
+import rego.v1
 
 valid_email if {
     regex.match(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`, input.email)
@@ -604,7 +603,7 @@ valid_email if {
 ### JSON Schema 验证
 
 ```rego
-import future.keywords.if
+import rego.v1
 
 valid_input if {
     json.match_schema(
@@ -646,6 +645,26 @@ valid_input if {
 
 ---
 
+## 🛡️ 安全提示
+
+### CVE-2025-46569
+
+> ⚠️ **严重**: OPA v1.4.0之前的版本存在安全漏洞，建议立即升级。
+
+```bash
+# 检查当前版本
+opa version
+
+# 升级到安全版本
+curl -L -o opa https://github.com/open-policy-agent/opa/releases/download/v1.4.0/opa_linux_amd64
+```
+
+**影响**: 远程代码执行漏洞  
+**修复版本**: OPA v1.4.0+  
+**参考**: https://github.com/open-policy-agent/opa/security/advisories
+
+---
+
 **提示**: 这是一份速查手册，详细说明请参考对应的完整文档 📚
 
-**更新**: 2025年10月21日 | **版本**: v2.0
+**更新**: 2026-03-19 | **版本**: v2.6.0

@@ -88,10 +88,27 @@ opa test . --coverage --format=json
 ### 2.1 版本兼容性
 
 - [ ] **OPA版本**: 使用推荐版本(v0.55+)
+- [ ] **CVE-2025-46569修复**: OPA版本 >= v1.4.0
 - [ ] **Rego版本**: 使用v1.0语法
 - [ ] **依赖检查**: 所有依赖版本兼容
 - [ ] **向后兼容**: 不破坏现有功能
 - [ ] **版本文档**: 记录版本要求
+
+**CVE-2025-46569漏洞检查**:
+
+```bash
+# 检查当前OPA版本
+opa version
+
+# 版本对比 (需要 >= 1.4.0)
+CURRENT_VERSION=$(opa version | grep "Version:" | awk '{print $2}')
+if [[ "$CURRENT_VERSION" < "1.4.0" ]]; then
+    echo "🔴 存在CVE-2025-46569漏洞风险! 请立即升级到 v1.4.0+"
+    exit 1
+else
+    echo "✅ 版本安全，已修复CVE-2025-46569"
+fi
+```
 
 **参考**: [VERSION_COMPATIBILITY.md](VERSION_COMPATIBILITY.md)
 
@@ -103,6 +120,33 @@ opa test . --coverage --format=json
 - [ ] **资源限制**: 设置CPU/内存限制
 - [ ] **网络策略**: 配置网络隔离
 - [ ] **服务发现**: 注册到服务注册中心
+- [ ] **网络隔离验证**: CVE-2025-46569网络层防护已配置
+
+**CVE-2025-46569网络防护配置**:
+
+```yaml
+# Kubernetes NetworkPolicy - 限制OPA网络访问
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: opa-restrict-access
+  namespace: opa
+spec:
+  podSelector:
+    matchLabels:
+      app: opa
+  policyTypes:
+  - Ingress
+  ingress:
+  # 只允许来自特定服务的访问
+  - from:
+    - podSelector:
+        matchLabels:
+          app: api-gateway
+    ports:
+    - protocol: TCP
+      port: 8181
+```
 
 **Kubernetes资源配置**:
 
@@ -126,6 +170,7 @@ replicas: 3          # 最少2个副本
 - [ ] **缓存策略**: 启用本地缓存
 - [ ] **回滚机制**: 准备回滚方案
 - [ ] **版本控制**: Bundle版本化管理
+- [ ] **安全Bundle验证**: CVE-2025-46569缓解策略已包含在Bundle中
 
 **OPA配置示例**:
 
@@ -155,6 +200,99 @@ bundles:
 - [ ] **密钥轮转**: 定期轮转密钥
 - [ ] **最小权限**: 服务账户最小权限
 - [ ] **网络隔离**: 限制网络访问
+- [ ] **system.authz配置**: CVE-2025-46569授权策略已启用
+
+**CVE-2025-46569授权策略配置 (system/authz.rego)**:
+
+```rego
+package system.authz
+
+import rego.v1
+
+# 默认拒绝所有请求
+default allow := false
+
+# 允许的健康检查
+allow if {
+    input.path == ["health"]
+    input.method == "GET"
+}
+
+allow if {
+    input.path == ["v1", "health"]
+    input.method == "GET"
+}
+
+# ========== HTTP Data API 路径验证 (CVE-2025-46569防护) ==========
+
+# 允许的路径前缀
+allowed_path_prefixes := {"public", "app", "api/v1", "api/v2"}
+
+# 有效路径字符：只允许字母、数字、下划线
+valid_path_characters := `^[a-zA-Z0-9_]+$`
+
+# 安全的Data API访问控制
+allow if {
+    input.method in ["GET", "POST"]
+    input.path[0] == "v1"
+    input.path[1] == "data"
+    
+    # 验证路径深度 (防御深路径DoS)
+    count(input.path) <= 6
+    
+    # 验证每个路径段 (防御路径注入)
+    every segment in array.slice(input.path, 2, count(input.path)) {
+        regex.match(valid_path_characters, segment)
+    }
+    
+    # 验证前缀
+    input.path[2] in allowed_path_prefixes
+    
+    # 需要身份认证
+    input.identity
+}
+
+# ========== 管理员权限 ==========
+
+allow if {
+    input.identity.role == "admin"
+    input.method in ["GET", "POST", "PUT", "DELETE"]
+    input.path[0] == "v1"
+}
+
+# ========== 拒绝可疑请求 (CVE-2025-46569检测) ==========
+
+# 拒绝包含特殊字符的路径
+deny contains "Invalid path characters: quotes or semicolons detected" if {
+    some segment in input.path
+    regex.match(`["';%]`, segment)
+}
+
+# 拒绝过深的路径 (防御DoS)
+deny contains "Path too deep: maximum depth exceeded" if {
+    count(input.path) > 8
+}
+
+# 拒绝尝试访问system命名空间
+deny contains "Access denied: system namespace restricted" if {
+    "system" in input.path
+    input.identity.role != "admin"
+}
+
+# 拒绝URL编码的引号 (CVE-2025-46569攻击特征)
+deny contains "Invalid request: encoded special characters detected" if {
+    # 检测URL编码的引号 %22=" %27='
+    regex.match(`%22|%27|%3B|%23`, input.request_raw_uri)
+}
+```
+
+**启用授权配置**:
+
+```yaml
+# config.yaml
+server:
+  authorization: basic
+```
 
 **TLS配置**:
 
@@ -175,6 +313,23 @@ tls:
 - [ ] **数据脱敏**: 日志中脱敏处理
 - [ ] **合规检查**: 通过安全合规审计
 
+**CVE-2025-46569审计日志配置**:
+
+```yaml
+# 启用决策日志记录可疑请求
+decision_logs:
+  console: false
+  plugin: decision_logger
+  reporting:
+    max_decisions_per_second: 100
+    upload_size_limit_bytes: 32768
+
+# 记录所有Data API访问用于入侵检测
+monitoring:
+  enable_endpoint_metrics: true
+  log_sensitive_paths: false
+```
+
 ### 3.3 漏洞管理
 
 - [ ] **镜像扫描**: 容器镜像无高危漏洞
@@ -182,6 +337,102 @@ tls:
 - [ ] **定期更新**: 计划定期更新OPA版本
 - [ ] **安全公告**: 订阅OPA安全公告
 - [ ] **应急响应**: 准备安全应急预案
+- [ ] **CVE-2025-46569修复验证**: 漏洞修复状态已确认
+
+**CVE-2025-46569漏洞检测脚本**:
+
+```bash
+#!/bin/bash
+# check-cve-2025-46569.sh - CVE-2025-46569漏洞检测脚本
+
+set -e
+
+echo "=== CVE-2025-46569 安全检测 ==="
+echo "检测时间: $(date)"
+echo ""
+
+# 颜色定义
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+FAILED=0
+
+# 1. 检查OPA版本
+echo "[1/5] 检查OPA版本..."
+OPA_VERSION=$(opa version 2>/dev/null | grep "Version:" | awk '{print $2}' || echo "unknown")
+
+if [[ "$OPA_VERSION" == "unknown" ]]; then
+    echo -e "${RED}✗ 无法检测OPA版本${NC}"
+    FAILED=1
+elif [[ "$OPA_VERSION" < "1.4.0" ]]; then
+    echo -e "${RED}✗ 存在漏洞! 当前版本 $OPA_VERSION < 1.4.0${NC}"
+    echo "  建议: 立即升级到 v1.4.0 或更高版本"
+    FAILED=1
+else
+    echo -e "${GREEN}✓ 版本安全 (当前: $OPA_VERSION >= 1.4.0)${NC}"
+fi
+
+# 2. 检查授权策略配置
+echo ""
+echo "[2/5] 检查system.authz授权策略..."
+AUTHZ_FILE=$(find . -name "authz.rego" -path "*/system/*" 2>/dev/null | head -1)
+
+if [[ -z "$AUTHZ_FILE" ]]; then
+    echo -e "${YELLOW}⚠ 未找到system.authz策略文件${NC}"
+    echo "  建议: 创建 system/authz.rego 配置授权策略"
+else
+    echo -e "${GREEN}✓ 找到授权策略文件: $AUTHZ_FILE${NC}"
+    
+    # 检查是否包含路径验证
+    if grep -q "valid_path_characters\|input.path" "$AUTHZ_FILE" 2>/dev/null; then
+        echo -e "${GREEN}✓ 授权策略包含路径验证${NC}"
+    else
+        echo -e "${YELLOW}⚠ 授权策略可能缺少路径验证 (CVE-2025-46569防护)${NC}"
+    fi
+fi
+
+# 3. 检查网络隔离
+echo ""
+echo "[3/5] 检查网络隔离配置..."
+if kubectl get networkpolicy -l app=opa 2>/dev/null | grep -q "opa"; then
+    echo -e "${GREEN}✓ 已配置NetworkPolicy${NC}"
+else
+    echo -e "${YELLOW}⚠ 未检测到NetworkPolicy配置${NC}"
+    echo "  建议: 配置NetworkPolicy限制OPA网络访问"
+fi
+
+# 4. 检查API访问控制
+echo ""
+echo "[4/5] 检查API访问控制..."
+if grep -r "authorization.*basic\|authorization.*token" . --include="*.yaml" --include="*.yml" 2>/dev/null | grep -q "authorization"; then
+    echo -e "${GREEN}✓ 已配置API授权${NC}"
+else
+    echo -e "${YELLOW}⚠ 可能未启用API授权${NC}"
+    echo "  建议: 在OPA配置中启用 authorization: basic"
+fi
+
+# 5. 检查监控告警
+echo ""
+echo "[5/5] 检查安全监控..."
+if grep -r "CVE-2025-46569\|suspicious_request\|path.*injection" . --include="*.rego" 2>/dev/null | grep -q "."; then
+    echo -e "${GREEN}✓ 已配置CVE-2025-46569监控规则${NC}"
+else
+    echo -e "${YELLOW}⚠ 未检测到CVE-2025-46569专用监控规则${NC}"
+    echo "  建议: 添加可疑请求检测规则"
+fi
+
+echo ""
+echo "=== 检测完成 ==="
+if [[ $FAILED -eq 0 ]]; then
+    echo -e "${GREEN}✓ 未发现高危问题${NC}"
+    exit 0
+else
+    echo -e "${RED}✗ 发现高危安全问题，请立即修复!${NC}"
+    exit 1
+fi
+```
 
 ---
 
@@ -417,6 +668,47 @@ permissions := data.permissions_by_user[input.user]
 - [ ] **默认策略**: 准备默认策略
 - [ ] **手动切换**: 支持手动降级
 - [ ] **恢复机制**: 自动恢复机制
+- [ ] **CVE-2025-46569应急响应**: 漏洞利用应急处置方案已准备
+
+**CVE-2025-46569应急响应方案**:
+
+```markdown
+## CVE-2025-46569 应急响应流程
+
+### 检测阶段
+1. 监控可疑请求特征:
+   - URL编码的引号 (%22, %27)
+   - 异常路径深度 (>6层)
+   - 访问system命名空间的尝试
+
+2. 告警触发条件:
+   - 短时间内大量Data API请求
+   - 包含特殊字符的路径请求
+   - 来自非信任源的请求
+
+### 响应阶段
+1. 立即措施:
+   ```bash
+   # 1. 启用紧急模式 (限制Data API访问)
+   kubectl apply -f emergency-restrict-policy.yaml
+   
+   # 2. 增加OPA实例数量应对DoS
+   kubectl scale deployment opa --replicas=10
+   
+   # 3. 启用WAF规则拦截恶意请求
+   ```
+
+2. 如果确认被利用:
+   - 立即切换至离线模式
+   - 启用默认允许/拒绝策略
+   - 通知安全团队
+
+### 恢复阶段
+1. 升级OPA到v1.4.0+
+2. 应用完整的system.authz策略
+3. 验证所有防护机制
+4. 恢复服务并持续监控
+```
 
 ---
 
@@ -432,6 +724,53 @@ permissions := data.permissions_by_user[input.user]
 - [ ] **团队培训**: 运维团队已培训
 - [ ] **应急演练**: 完成应急演练
 - [ ] **上线审批**: 获得上线审批
+
+### CVE-2025-46569专项安全检查 🔒
+
+- [ ] **安全漏洞扫描**: CVE-2025-46569漏洞检测通过
+  - [ ] OPA版本 >= v1.4.0 已确认
+  - [ ] 漏洞检测脚本执行通过
+  - [ ] 无高危安全漏洞残留
+
+- [ ] **网络隔离验证**: 网络层防护已生效
+  - [ ] NetworkPolicy/防火墙规则已应用
+  - [ ] OPA未直接暴露到公网
+  - [ ] 仅允许白名单服务访问OPA端口
+  - [ ] 网络连通性测试通过
+
+- [ ] **API访问控制测试**: 授权策略功能验证
+  - [ ] `system.authz` 策略已加载
+  - [ ] 路径验证规则生效 (测试注入尝试被拒绝)
+  - [ ] 管理员权限正常工作
+  - [ ] 非法路径访问被正确拒绝
+  - [ ] 健康检查端点可正常访问
+
+**CVE-2025-46569验证命令**:
+
+```bash
+# 1. 版本验证
+opa version | grep "Version:"
+
+# 2. 授权策略验证
+curl -s -o /dev/null -w "%{http_code}" \
+  http://opa-server:8181/v1/data/app/users
+# 期望返回: 200 (如果已认证) 或 401/403 (如果未授权)
+
+# 3. 路径注入测试 (应当被拒绝)
+curl -s -o /dev/null -w "%{http_code}" \
+  "http://opa-server:8181/v1/data/app%2Fusers%22%20%23%20test"
+# 期望返回: 403 (拒绝访问)
+
+# 4. System命名空间访问测试 (应当被拒绝)
+curl -s -o /dev/null -w "%{http_code}" \
+  http://opa-server:8181/v1/data/system/authz/allow
+# 期望返回: 403 (拒绝访问)
+
+# 5. 深度路径限制测试
+curl -s -o /dev/null -w "%{http_code}" \
+  http://opa-server:8181/v1/data/a/b/c/d/e/f/g/h/i
+# 期望返回: 403 (路径过深)
+```
 
 ### 上线当天
 
@@ -523,7 +862,530 @@ permissions := data.permissions_by_user[input.user]
 - [生产案例集](PRODUCTION_CASES.md)
 - [性能优化指南](docs/08-最佳实践/08.2-性能优化指南.md)
 - [安全合规标准](docs/01-技术规范/01.5-安全合规标准.md)
+- [CVE-2025-46569安全通告](docs/12-理论实践/12.6-CVE-2025-46569安全通告.md)
 - [FAQ](docs/FAQ.md)
+
+---
+
+## 🔒 附录A: CVE-2025-46569安全配置模板
+
+### A.1 完整system.authz策略模板
+
+```rego
+# policy/system/authz.rego
+# CVE-2025-46569防护授权策略
+
+package system.authz
+
+import rego.v1
+
+# ========== 配置常量 ==========
+
+# 允许的路径前缀 (白名单)
+allowed_path_prefixes := {"public", "app", "api/v1", "api/v2"}
+
+# 禁止访问的敏感命名空间
+forbidden_namespaces := {"system", "debug", "internal"}
+
+# 有效路径字符正则 (只允许字母、数字、下划线、斜杠)
+valid_path_characters := `^[a-zA-Z0-9_]+$`
+
+# 最大路径深度 (防御DoS)
+max_path_depth := 6
+
+# 管理员角色
+admin_roles := {"admin", "security_admin"}
+
+# ========== 默认拒绝 ==========
+
+default allow := false
+
+# ========== 健康检查 (无需认证) ==========
+
+allow if {
+    input.path == ["health"]
+    input.method == "GET"
+}
+
+allow if {
+    input.path == ["v1", "health"]
+    input.method == "GET"
+}
+
+# ========== 标准Data API访问控制 ==========
+
+allow if {
+    # 基础HTTP方法检查
+    input.method in ["GET", "POST"]
+    
+    # Data API端点
+    input.path[0] == "v1"
+    input.path[1] == "data"
+    
+    # 路径深度限制 (防御DoS)
+    count(input.path) <= max_path_depth
+    count(input.path) >= 3
+    
+    # 路径段验证 (防御路径注入)
+    every segment in array.slice(input.path, 2, count(input.path)) {
+        regex.match(valid_path_characters, segment)
+    }
+    
+    # 前缀白名单检查
+    input.path[2] in allowed_path_prefixes
+    
+    # 敏感命名空间保护
+    not path_contains_forbidden_namespace
+    
+    # 请求体安全检查 (POST请求)
+    safe_request_body
+    
+    # 身份认证检查
+    valid_identity
+}
+
+# ========== 管理员特权访问 ==========
+
+allow if {
+    input.identity.role in admin_roles
+    input.method in ["GET", "POST", "PUT", "DELETE"]
+    input.path[0] == "v1"
+    not suspicious_request
+}
+
+# ========== 辅助判断规则 ==========
+
+# 检查路径是否包含敏感命名空间
+path_contains_forbidden_namespace if {
+    some ns in forbidden_namespaces
+    ns in input.path
+}
+
+# 验证身份有效性
+valid_identity if {
+    input.identity
+    input.identity.username
+    input.identity.role
+}
+
+# 请求体安全检查
+safe_request_body if {
+    # GET请求无需检查body
+    input.method == "GET"
+}
+
+safe_request_body if {
+    input.method == "POST"
+    # 检查请求体不包含可疑代码注入模式
+    not regex.match(`["';#]`, sprintf("%v", [input.body]))
+}
+
+# 可疑请求检测 (CVE-2025-46569攻击特征)
+suspicious_request if {
+    # URL编码的引号
+    regex.match(`%22|%27`, input.request_raw_uri)
+}
+
+suspicious_request if {
+    # URL编码的分号或注释符
+    regex.match(`%3B|%23|%2F%2F`, input.request_raw_uri)
+}
+
+suspicious_request if {
+    # 路径深度异常
+    count(input.path) > 10
+}
+
+suspicious_request if {
+    # 包含特殊字符的路径段
+    some segment in input.path
+    regex.match(`["'<>;#]`, segment)
+}
+
+# ========== 拒绝原因 (用于审计日志) ==========
+
+deny contains reason if {
+    some reason in deny_reasons
+}
+
+deny_reasons contains "Invalid path characters detected" if {
+    some segment in input.path
+    regex.match(`["';%<>]`, segment)
+}
+
+deny_reasons contains "Path depth exceeds maximum allowed" if {
+    count(input.path) > max_path_depth
+}
+
+deny_reasons contains "Access to forbidden namespace denied" if {
+    path_contains_forbidden_namespace
+    not input.identity.role in admin_roles
+}
+
+deny_reasons contains "Suspicious request pattern detected" if {
+    suspicious_request
+}
+
+deny_reasons contains "Authentication required" if {
+    not valid_identity
+    input.path != ["health"]
+    input.path != ["v1", "health"]
+}
+
+deny_reasons contains "Path prefix not in whitelist" if {
+    input.path[0] == "v1"
+    input.path[1] == "data"
+    not input.path[2] in allowed_path_prefixes
+}
+
+# ========== 监控与审计 ==========
+
+# 标记需要审计的请求
+audit_log if {
+    input.path[0] == "v1"
+    input.path[1] == "data"
+}
+
+# 标记可疑请求
+security_alert contains "CVE-2025-46569 exploit attempt detected" if {
+    suspicious_request
+    input.path[0] == "v1"
+    input.path[1] == "data"
+}
+```
+
+### A.2 入侵检测监控策略
+
+```rego
+# policy/security/monitoring.rego
+# CVE-2025-46569入侵检测规则
+
+package security.monitoring
+
+import rego.v1
+
+# ========== 可疑请求模式 ==========
+
+# 检测CVE-2025-46569攻击尝试
+suspicious_cve_2025_46569 if {
+    # 检测URL编码的引号 (攻击payload特征)
+    regex.match(`%22|%27|%60`, input.request_raw_uri)
+    input.path[0] == "v1"
+    input.path[1] == "data"
+}
+
+# 检测注释注入尝试
+suspicious_cve_2025_46569 if {
+    regex.match(`%23|%2F%2F|%2F\*`, input.request_raw_uri)
+    input.path[0] == "v1"
+    input.path[1] == "data"
+}
+
+# 检测分号注入
+suspicious_cve_2025_46569 if {
+    regex.match(`%3B`, input.request_raw_uri)
+}
+
+# 检测路径遍历
+suspicious_cve_2025_46569 if {
+    regex.match(`%2E%2E|%252E%252E`, input.request_raw_uri)
+}
+
+# 检测异常路径深度 (可能的DoS)
+suspicious_cve_2025_46569 if {
+    count(input.path) > 8
+    input.path[0] == "v1"
+    input.path[1] == "data"
+}
+
+# 检测对system命名空间的探测
+suspicious_cve_2025_46569 if {
+    "system" in input.path
+    not input.identity.role == "admin"
+}
+
+# ========== 告警规则 ==========
+
+# 高危告警: 疑似漏洞利用尝试
+alert contains {
+    "severity": "critical",
+    "type": "cve-2025-46569-exploit-attempt",
+    "message": "疑似CVE-2025-46569漏洞利用尝试",
+    "client_ip": input.remote_addr,
+    "request_path": input.request_raw_uri,
+    "timestamp": input.timestamp
+} if {
+    suspicious_cve_2025_46569
+}
+
+# 中危告警: 异常Data API访问模式
+alert contains {
+    "severity": "warning", 
+    "type": "unusual-data-api-access",
+    "message": "异常的Data API访问模式",
+    "client_ip": input.remote_addr,
+    "request_path": input.path,
+    "timestamp": input.timestamp
+} if {
+    # 访问不存在的路径
+    input.path[0] == "v1"
+    input.path[1] == "data"
+    count(input.path) > 5
+    not suspicious_cve_2025_46569
+}
+
+# 统计型告警: 高频访问
+high_frequency_access if {
+    # 实际实现需要结合外部数据源统计
+    # 这里定义规则框架
+    input.path[0] == "v1"
+    input.path[1] == "data"
+    input.request_rate_per_minute > 1000
+}
+```
+
+### A.3 Kubernetes安全配置清单
+
+```yaml
+# CVE-2025-46569 Kubernetes安全配置
+
+# 1. NetworkPolicy - 网络隔离
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: opa-cve-2025-46569-protection
+  namespace: opa
+spec:
+  podSelector:
+    matchLabels:
+      app: opa
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  # 只允许来自API Gateway的访问
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: ingress-nginx
+    - podSelector:
+        matchLabels:
+          app: api-gateway
+    ports:
+    - protocol: TCP
+      port: 8181
+  # 允许来自监控系统的访问
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: monitoring
+    ports:
+    - protocol: TCP
+      port: 8181
+  egress:
+  # 只允许访问必要的后端服务
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          name: bundle-server
+    ports:
+    - protocol: TCP
+      port: 443
+
+---
+# 2. PodSecurityPolicy / SecurityContext
+apiVersion: v1
+kind: Pod
+metadata:
+  name: opa-secure
+spec:
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    fsGroup: 1000
+    seccompProfile:
+      type: RuntimeDefault
+  containers:
+  - name: opa
+    image: openpolicyagent/opa:1.4.0
+    securityContext:
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true
+      capabilities:
+        drop:
+        - ALL
+    resources:
+      requests:
+        memory: "128Mi"
+        cpu: "100m"
+      limits:
+        memory: "512Mi"
+        cpu: "500m"
+    livenessProbe:
+      httpGet:
+        path: /health
+        port: 8181
+      initialDelaySeconds: 10
+      periodSeconds: 10
+    readinessProbe:
+      httpGet:
+        path: /health?ready=1
+        port: 8181
+      initialDelaySeconds: 5
+      periodSeconds: 5
+
+---
+# 3. ResourceQuota - 防止DoS
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: opa-quota
+  namespace: opa
+spec:
+  hard:
+    pods: "10"
+    requests.cpu: "2"
+    requests.memory: 2Gi
+    limits.cpu: "5"
+    limits.memory: 5Gi
+
+---
+# 4. LimitRange - 默认资源限制
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: opa-limits
+  namespace: opa
+spec:
+  limits:
+  - default:
+      cpu: 500m
+      memory: 512Mi
+    defaultRequest:
+      cpu: 100m
+      memory: 128Mi
+    type: Container
+```
+
+### A.4 API网关路径过滤配置
+
+```nginx
+# nginx/opapath_filter.conf
+# Nginx路径过滤配置 - CVE-2025-46569防护
+
+upstream opa_backend {
+    server opa-service.opa.svc.cluster.local:8181;
+    keepalive 32;
+}
+
+server {
+    listen 80;
+    server_name opa-gateway.example.com;
+    
+    # 安全请求头
+    add_header X-Content-Type-Options nosniff;
+    add_header X-Frame-Options DENY;
+    add_header X-XSS-Protection "1; mode=block";
+    
+    # 日志格式
+    log_format security '$remote_addr - $remote_user [$time_local] '
+                       '"$request" $status $body_bytes_sent '
+                       '"$http_referer" "$http_user_agent" '
+                       'req_time=$request_time '
+                       'suspicious=$suspicious_request';
+    
+    access_log /var/log/nginx/opa-access.log security;
+    
+    # ========== 安全路径过滤 ==========
+    
+    # 只允许安全的字符出现在路径中
+    location ~* ^/v1/data/[a-zA-Z0-9_]+(/[a-zA-Z0-9_]+)*$ {
+        # 检查可疑字符
+        if ($request_uri ~* ["'%<>;#]) {
+            return 403 "Invalid characters in path";
+        }
+        
+        # 检查URL编码的特殊字符
+        if ($request_uri ~* %22|%27|%3C|%3E|%3B|%23) {
+            return 403 "Encoded special characters detected";
+        }
+        
+        # 代理到OPA
+        proxy_pass http://opa_backend;
+        proxy_http_version 1.1;
+        proxy_set_header Connection "";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        
+        # 超时设置
+        proxy_connect_timeout 5s;
+        proxy_send_timeout 10s;
+        proxy_read_timeout 10s;
+    }
+    
+    # 拒绝其他Data API路径
+    location /v1/data/ {
+        return 403 "Path does not match allowed pattern";
+    }
+    
+    # 其他API端点 (健康检查等)
+    location /health {
+        proxy_pass http://opa_backend;
+        proxy_http_version 1.1;
+        proxy_set_header Connection "";
+    }
+    
+    location /v1/health {
+        proxy_pass http://opa_backend;
+        proxy_http_version 1.1;
+        proxy_set_header Connection "";
+    }
+    
+    # 默认拒绝
+    location / {
+        return 403 "Access denied";
+    }
+}
+```
+
+### A.5 快速检查清单 (打印版)
+
+```markdown
+## CVE-2025-46569 部署前快速检查清单
+
+### 版本检查 ⬜
+- [ ] OPA版本 >= v1.4.0
+- [ ] 执行: `opa version | grep Version`
+
+### 授权策略检查 ⬜
+- [ ] system/authz.rego 已创建
+- [ ] 路径验证规则已配置
+- [ ] 敏感命名空间(system)已保护
+- [ ] 路径深度限制已设置 (建议<=6)
+
+### 网络防护检查 ⬜
+- [ ] NetworkPolicy已应用
+- [ ] OPA未暴露公网IP
+- [ ] 仅允许白名单服务访问
+
+### API访问控制检查 ⬜
+- [ ] 身份认证已启用
+- [ ] 测试: 合法请求返回200
+- [ ] 测试: 非法路径返回403
+- [ ] 测试: system访问返回403
+
+### 监控告警检查 ⬜
+- [ ] 可疑请求检测规则已配置
+- [ ] 告警通道已测试
+- [ ] 日志收集已启用
+
+### 应急响应检查 ⬜
+- [ ] 应急联系人名单已更新
+- [ ] 升级回滚流程已准备
+- [ ] 演练记录已存档
+```
 
 ---
 

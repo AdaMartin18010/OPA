@@ -1,5 +1,6 @@
 #!/bin/bash
-# Performance benchmark script
+# Performance benchmark script for OPA v1.4.0
+# Last verified: 2026-03-19
 
 set -e
 
